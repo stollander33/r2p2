@@ -6,7 +6,7 @@ variables:
       online_url: https://github.com/rapydo/rapydo-angular.git
       _if: $$angular
     do:
-      online_url: https://github.com/rapydo/do.git
+      online_url: https://github.com/stollander33/r2p2.git
 
   roles:
     admin_root: Admin

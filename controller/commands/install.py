@@ -94,7 +94,7 @@ rapydo install {ver} --no-editable
 
 def install_controller_from_git(version: str) -> None:
 
-    controller = f"git+https://github.com/rapydo/do.git@{version}"
+    controller = f"git+https://github.com/stollander33/r2p2.git@{version}"
 
     log.info("You asked to install rapydo {} from git", version)
 

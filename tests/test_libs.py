@@ -394,12 +394,12 @@ def test_download() -> None:
 
     with pytest.raises(SystemExit):
         Packages.download(
-            "https://github.com/rapydo/do/archive/refs/tags/v1.2.zip",
+            "https://github.com/stollander33/r2p2/archive/refs/tags/v1.2.zip",
             "thisisawrongchecksum",
         )
 
     downloaded = Packages.download(
-        "https://github.com/rapydo/do/archive/refs/tags/v1.2.zip",
+        "https://github.com/stollander33/r2p2/archive/refs/tags/v1.2.zip",
         "dc07bef0d12a7a9cfd0f383452cbcb6d",
     )
     assert downloaded is not None

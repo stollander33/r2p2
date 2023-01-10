@@ -25,8 +25,8 @@ optional-dependencies = {dev = {file = ["requirements.dev.txt"]}, types = {file 
 [project.urls]
 homepage = "https://rapydo.github.io/docs"
 documentation = "https://do.readthedocs.io"
-repository = "https://github.com/rapydo/do"
-# changelog = "https://github.com/rapydo/do"
+repository = "https://github.com/stollander33/r2p2"
+# changelog = "https://github.com/stollander33/r2p2"
 
 [project.scripts]
 rapydo = "controller.__main__:main"
