@@ -1,7 +1,7 @@
 MANIFEST
 README
 # README.rst
-
+.vscode/
 # sublime text
 *.sublime-*
 

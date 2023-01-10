@@ -35,7 +35,7 @@ services:
         RAPYDO_VERSION: ${RAPYDO_VERSION}
         CURRENT_UID: ${CURRENT_UID}
         CURRENT_GID: ${CURRENT_GID}
-    image: rapydo/${BACKEND_BUILD_MODE}:${RAPYDO_VERSION}
+    image: richardssenstollander/${BACKEND_BUILD_MODE}:${RAPYDO_VERSION}
     healthcheck:
       test: ${HEALTHCHECK_BACKEND_CMD}
       interval: ${HEALTHCHECK_INTERVAL}
@@ -233,7 +233,7 @@ services:
         RAPYDO_VERSION: ${RAPYDO_VERSION}
         CURRENT_UID: ${CURRENT_UID}
         CURRENT_GID: ${CURRENT_GID}
-    image: rapydo/proxy:${RAPYDO_VERSION}
+    image: richardssenstollander/proxy:${RAPYDO_VERSION}
     hostname: proxy
     logging:
       driver: ${DOCKER_LOGGING_DRIVER}
@@ -302,7 +302,7 @@ services:
         RAPYDO_VERSION: ${RAPYDO_VERSION}
         CURRENT_UID: ${CURRENT_UID}
         CURRENT_GID: ${CURRENT_GID}
-    image: rapydo/proxy:${RAPYDO_VERSION}
+    image: richardssenstollander/proxy:${RAPYDO_VERSION}
     entrypoint: docker-entrypoint-maintenanance
     hostname: proxy
     logging:
@@ -334,7 +334,7 @@ services:
         RAPYDO_VERSION: ${RAPYDO_VERSION}
         CURRENT_UID: ${CURRENT_UID}
         CURRENT_GID: ${CURRENT_GID}
-    image: rapydo/postgres:${RAPYDO_VERSION}
+    image: richardssenstollander/postgres:${RAPYDO_VERSION}
     command: postgres -c max_connections=${POSTGRES_MAX_CONNECTIONS} -c shared_buffers=${POSTGRES_SHARED_BUFFERS} -c wal_buffers=${POSTGRES_WAL_BUFFERS} -c effective_cache_size=${POSTGRES_EFFECTIVE_CACHE_SIZE} -c work_mem=${POSTGRES_WORK_MEM} -c maintenance_work_mem=${POSTGRES_MAINTENANCE_WORK_MEM} -c effective_io_concurrency=${POSTGRES_EFFECTIVE_IO_CONCURRENCY} -c max_worker_processes=${POSTGRES_MAX_WORKER_PROCESSES} -c max_parallel_workers=${POSTGRES_MAX_WORKER_PROCESSES}
     healthcheck:
       test: "pg_isready -U $$POSTGRES_USER"
@@ -370,7 +370,7 @@ services:
         RAPYDO_VERSION: ${RAPYDO_VERSION}
         CURRENT_UID: ${CURRENT_UID}
         CURRENT_GID: ${CURRENT_GID}
-    image: rapydo/neo4j:${RAPYDO_VERSION}
+    image: richardssenstollander/neo4j:${RAPYDO_VERSION}
     healthcheck:
       # test: ["CMD", "cypher-shell", "'match (n) WITH n LIMIT 1 return count(n)'"]
       test: "cypher-shell 'match (n) WITH n LIMIT 1 return count(n)'"
@@ -454,7 +454,7 @@ services:
         RAPYDO_VERSION: ${RAPYDO_VERSION}
         CURRENT_UID: ${CURRENT_UID}
         CURRENT_GID: ${CURRENT_GID}
-    image: rapydo/${BACKEND_BUILD_MODE}:${RAPYDO_VERSION}
+    image: richardssenstollander/${BACKEND_BUILD_MODE}:${RAPYDO_VERSION}
     entrypoint: docker-entrypoint-celery
     command: celery --app restapi.connectors.celery.worker.celery_app worker --concurrency=1 --pool=${CELERY_POOL_MODE} -Ofair -Q celery -n ${COMPOSE_PROJECT_NAME}-%h
     healthcheck:
@@ -584,7 +584,7 @@ services:
         RAPYDO_VERSION: ${RAPYDO_VERSION}
         CURRENT_UID: ${CURRENT_UID}
         CURRENT_GID: ${CURRENT_GID}
-    image: rapydo/${BACKEND_BUILD_MODE}:${RAPYDO_VERSION}
+    image: richardssenstollander/${BACKEND_BUILD_MODE}:${RAPYDO_VERSION}
     hostname: celery-beat
     entrypoint: docker-entrypoint-celery
     command: celery --app restapi.connectors.celery.beat.celery_app beat --pidfile /tmp/celerybeat.pid --loglevel DEBUG --max-interval 30 --scheduler ${CELERYBEAT_SCHEDULER}
@@ -670,7 +670,7 @@ services:
         RAPYDO_VERSION: ${RAPYDO_VERSION}
         CURRENT_UID: ${CURRENT_UID}
         CURRENT_GID: ${CURRENT_GID}
-    image: rapydo/rabbitmq:${RAPYDO_VERSION}
+    image: richardssenstollander/rabbitmq:${RAPYDO_VERSION}
     healthcheck:
       test: "rabbitmq-diagnostics status"
       interval: ${HEALTHCHECK_INTERVAL}
@@ -713,7 +713,7 @@ services:
         RAPYDO_VERSION: ${RAPYDO_VERSION}
         CURRENT_UID: ${CURRENT_UID}
         CURRENT_GID: ${CURRENT_GID}
-    image: rapydo/redis:${RAPYDO_VERSION}
+    image: richardssenstollander/redis:${RAPYDO_VERSION}
     command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}
     healthcheck:
       test: "redis-cli --pass $$REDIS_PASSWORD -h 127.0.0.1 ping"
@@ -749,7 +749,7 @@ services:
         RAPYDO_VERSION: ${RAPYDO_VERSION}
         CURRENT_UID: ${CURRENT_UID}
         CURRENT_GID: ${CURRENT_GID}
-    image: rapydo/${BACKEND_BUILD_MODE}:${RAPYDO_VERSION}
+    image: richardssenstollander/${BACKEND_BUILD_MODE}:${RAPYDO_VERSION}
     hostname: flower
 
     entrypoint: docker-entrypoint-celery
@@ -842,7 +842,7 @@ services:
         RAPYDO_VERSION: ${RAPYDO_VERSION}
         CURRENT_UID: ${CURRENT_UID}
         CURRENT_GID: ${CURRENT_GID}
-    image: rapydo/swaggerui:${RAPYDO_VERSION}
+    image: richardssenstollander/swaggerui:${RAPYDO_VERSION}
     logging:
       driver: ${DOCKER_LOGGING_DRIVER}
       options: {}
@@ -865,7 +865,7 @@ services:
         RAPYDO_VERSION: ${RAPYDO_VERSION}
         CURRENT_UID: ${CURRENT_UID}
         CURRENT_GID: ${CURRENT_GID}
-    image: rapydo/adminer:${RAPYDO_VERSION}
+    image: richardssenstollander/adminer:${RAPYDO_VERSION}
     logging:
       driver: ${DOCKER_LOGGING_DRIVER}
       options: {}
@@ -889,7 +889,7 @@ services:
   ftp:
     restart: always
     build: ${SUBMODULE_DIR}/do/controller/builds/ftp
-    image: rapydo/ftp:${RAPYDO_VERSION}
+    image: richardssenstollander/ftp:${RAPYDO_VERSION}
     volumes:
       - pureftpd:/etc/pure-ftpd/passwd
       - ssl_certs:/etc/letsencrypt
@@ -940,7 +940,7 @@ services:
   registry:
     restart: always
     build: ${SUBMODULE_DIR}/do/controller/builds/registry
-    image: rapydo/registry:${RAPYDO_VERSION}
+    image: richardssenstollander/registry:${RAPYDO_VERSION}
     hostname: registry
     # make it common to all projects
     container_name: registry
@@ -985,7 +985,7 @@ services:
   fail2ban:
     restart: always
     build: ${SUBMODULE_DIR}/do/controller/builds/fail2ban
-    image: rapydo/fail2ban:${RAPYDO_VERSION}
+    image: richardssenstollander/fail2ban:${RAPYDO_VERSION}
     # This works for compose but not for swarm.
     # In swarm mode this flag is replaced with an external network
     network_mode: "host"
@@ -1033,7 +1033,7 @@ services:
       context: ${SUBMODULE_DIR}/do/controller/builds/mypy
       args:
         RAPYDO_VERSION: ${RAPYDO_VERSION}
-    image: rapydo/mypy:${RAPYDO_VERSION}
+    image: richardssenstollander/mypy:${RAPYDO_VERSION}
     command: mypy --version
     working_dir: /code/${COMPOSE_PROJECT_NAME}
     environment:

@@ -58,9 +58,6 @@ class Project:
         self.expected_folders.append(self.p_path("confs"))
         self.expected_folders.append(self.p_path("builds"))
         self.expected_folders.append(self.p_path("backend"))
-        self.expected_folders.append(self.p_path("backend", "endpoints"))
-        self.expected_folders.append(self.p_path("backend", "models"))
-        self.expected_folders.append(self.p_path("backend", "models", "emails"))
         self.expected_folders.append(self.p_path("backend", "tasks"))
         self.expected_folders.append(self.p_path("backend", "tests"))
         self.expected_folders.append(self.p_path("backend", "cron"))
@@ -71,23 +68,14 @@ class Project:
         self.suggested_gitkeep.append(BACKUP_DIR.joinpath(GITKEEP))
         self.suggested_gitkeep.append(self.p_path("backend", "cron", GITKEEP))
         self.suggested_gitkeep.append(self.p_path("builds", GITKEEP))
-        self.suggested_gitkeep.append(self.p_path("backend", "endpoints", GITKEEP))
         self.suggested_gitkeep.append(self.p_path("backend", "tasks", GITKEEP))
         self.suggested_gitkeep.append(self.p_path("backend", "tests", GITKEEP))
-        self.suggested_gitkeep.append(
-            self.p_path("backend", "models", "emails", GITKEEP)
-        )
-
+        
         self.expected_files.append(self.p_path("project_configuration.yaml"))
         self.expected_files.append(self.p_path("confs", "commons.yml"))
         self.expected_files.append(self.p_path("confs", "development.yml"))
         self.expected_files.append(self.p_path("confs", "production.yml"))
-        # Need to ensure mypy to correctly extract typing from the project module
-        self.expected_files.append(self.p_path("backend", "__init__.py"))
-        self.expected_files.append(self.p_path("backend", "initialization.py"))
-        self.expected_files.append(self.p_path("backend", "customization.py"))
-        self.expected_files.append(self.p_path("backend", "endpoints", "__init__.py"))
-        self.expected_files.append(self.p_path("backend", "models", "__init__.py"))
+        # Need to ensure mypy to correctly extract typing from the project module        
         self.expected_files.append(self.p_path("backend", "tasks", "__init__.py"))
         self.expected_files.append(self.p_path("backend", "tests", "__init__.py"))
         self.expected_files.append(Path(".gitignore"))
@@ -99,27 +87,26 @@ class Project:
         self.fixed_files.append(Path(".gitattributes"))
         self.fixed_files.append(Path("pyproject.toml"))
 
-        if auth or services:
+#        if auth or services:
+#            models = self.p_path("backend", "models")
+#            if auth == "sqlalchemy" or "postgres" in services:
+#                self.expected_files.append(models.joinpath("sqlalchemy.py"))
+#            if auth == "neo4j" or "neo4j" in services:
+#                self.expected_files.append(models.joinpath("neo4j.py"))
 
-            models = self.p_path("backend", "models")
-            if auth == "sqlalchemy" or "postgres" in services:
-                self.expected_files.append(models.joinpath("sqlalchemy.py"))
-            if auth == "neo4j" or "neo4j" in services:
-                self.expected_files.append(models.joinpath("neo4j.py"))
-
-        self.optionals_folders.append(self.p_path("backend", "models", "emails"))
-        self.optionals_files.append(
-            self.p_path("backend", "models", "emails", "activate_account.html")
-        )
-        self.optionals_files.append(
-            self.p_path("backend", "models", "emails", "new_credentials.html")
-        )
-        self.optionals_files.append(
-            self.p_path("backend", "models", "emails", "reset_password.html")
-        )
-        self.optionals_files.append(
-            self.p_path("backend", "models", "emails", "update_credentials.html")
-        )
+#        self.optionals_folders.append(self.p_path("backend", "models", "emails"))
+#        self.optionals_files.append(
+#            self.p_path("backend", "models", "emails", "activate_account.html")
+#        )
+#        self.optionals_files.append(
+#            self.p_path("backend", "models", "emails", "new_credentials.html")
+#        )
+#        self.optionals_files.append(
+#            self.p_path("backend", "models", "emails", "reset_password.html")
+#        )
+#        self.optionals_files.append(
+#            self.p_path("backend", "models", "emails", "update_credentials.html")
+#        )
         self.optionals_files.append(Path("codecov.yml"))
 
         self.data_folders.extend(
@@ -131,19 +118,19 @@ class Project:
         )
 
         # Removed since 0.7.1
-        self.obsolete_files.append(self.p_path("confs", "debug.yml"))
+#        self.obsolete_files.append(self.p_path("confs", "debug.yml"))
         # Removed since 0.7.4
-        self.obsolete_files.append(SUBMODULES_DIR.joinpath("rapydo-confs"))
+#        self.obsolete_files.append(SUBMODULES_DIR.joinpath("rapydo-confs"))
         # Removed since 0.7.5
         self.obsolete_files.append(SUBMODULES_DIR.joinpath("frontend"))
         # Removed since 0.7.6
-        self.obsolete_files.append(self.p_path("backend", "apis"))
+#        self.obsolete_files.append(self.p_path("backend", "apis"))
         # Removed since 0.8
-        self.obsolete_files.append(self.p_path("backend", "models", "swagger.yaml"))
-        self.obsolete_files.append(self.p_path("backend", "endpoints", "profile.py"))
+#        self.obsolete_files.append(self.p_path("backend", "models", "swagger.yaml"))
+#        self.obsolete_files.append(self.p_path("backend", "endpoints", "profile.py"))
         # Removed since 0.9
-        self.obsolete_files.append(self.p_path("backend", "initialization"))
-        self.obsolete_files.append(self.p_path("frontend", "assets", "favicon.ico"))
+ #       self.obsolete_files.append(self.p_path("backend", "initialization"))
+        #self.obsolete_files.append(self.p_path("frontend", "assets", "favicon.ico"))
         # Removed since 1.2
         self.obsolete_files.append(Path(".pre-commit-config.yaml"))
         # Removed since 2.3
