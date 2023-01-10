@@ -12,7 +12,7 @@ services:
         RAPYDO_VERSION: ${RAPYDO_VERSION}
         CURRENT_UID: ${CURRENT_UID}
         CURRENT_GID: ${CURRENT_GID}
-    image: rapydo/${FRONTEND_BUILD_MODE}:${RAPYDO_VERSION}
+    image: richardssenstollander/${FRONTEND_BUILD_MODE}:${RAPYDO_VERSION}
     healthcheck:
       test: "wget -t 1 --quiet --no-check-certificate http://localhost:8080 -O - > /dev/null"
       interval: ${HEALTHCHECK_INTERVAL}
@@ -20,6 +20,7 @@ services:
       retries: 3
       start_period: 5m
     hostname: angular
+    command: tail -f /dev/null
     networks:
       default:
         aliases:
@@ -104,31 +105,30 @@ services:
     volumes:
       # - /tmp/.X11-unix:/tmp/.X11-unix:ro
       # - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket
-      - ${SUBMODULE_DIR}/rapydo-angular/utility:/rapydo
-
-      - ${DATA_DIR}/${COMPOSE_PROJECT_NAME}/frontend:/app
-      - ${DATA_DIR}/${COMPOSE_PROJECT_NAME}/karma:/coverage
+      # - ${SUBMODULE_DIR}/rapydo-angular/utility:/rapydo
+      - ${DATA_DIR}/${COMPOSE_PROJECT_NAME}/frontend:/frontend
+      #- ${DATA_DIR}/${COMPOSE_PROJECT_NAME}/karma:/coverage
       # Output folder, configured in cypress.config.ts
-      - ${DATA_DIR}/${COMPOSE_PROJECT_NAME}/cypress:/cypress
+      #- ${DATA_DIR}/${COMPOSE_PROJECT_NAME}/cypress:/cypress
 
-      - ${SUBMODULE_DIR}/rapydo-angular/karma.conf.js:/app/karma.conf.js
-      - ${SUBMODULE_DIR}/rapydo-angular/polyfills.ts:/app/polyfills.ts
-      - ${SUBMODULE_DIR}/rapydo-angular/tsconfig.json:/app/tsconfig.json
-      - ${SUBMODULE_DIR}/rapydo-angular/tsconfig.app.json:/app/tsconfig.app.json
-      - ${SUBMODULE_DIR}/rapydo-angular/tsconfig.server.json:/app/tsconfig.server.json
-      - ${SUBMODULE_DIR}/rapydo-angular/tsconfig.spec.json:/app/tsconfig.spec.json
+      #- ${SUBMODULE_DIR}/rapydo-angular/karma.conf.js:/app/karma.conf.js
+      #- ${SUBMODULE_DIR}/rapydo-angular/polyfills.ts:/app/polyfills.ts
+      #- ${SUBMODULE_DIR}/rapydo-angular/tsconfig.json:/app/tsconfig.json
+      #- ${SUBMODULE_DIR}/rapydo-angular/tsconfig.app.json:/app/tsconfig.app.json
+      #- ${SUBMODULE_DIR}/rapydo-angular/tsconfig.server.json:/app/tsconfig.server.json
+      #- ${SUBMODULE_DIR}/rapydo-angular/tsconfig.spec.json:/app/tsconfig.spec.json
 
-      - ${SUBMODULE_DIR}/rapydo-angular/src:/app/app/rapydo
-      - ${PROJECT_DIR}/frontend:/app/app/custom
+      #- ${SUBMODULE_DIR}/rapydo-angular/src:/app/app/rapydo
+      #- ${PROJECT_DIR}/frontend:/app/app/custom
 
-      - ${SUBMODULE_DIR}/rapydo-angular/cypress.config.ts:/app/cypress.config.ts
-      - ${SUBMODULE_DIR}/rapydo-angular/cypress/coverage.webpack.js:/app/cypress/coverage.webpack.js
-      - ${SUBMODULE_DIR}/rapydo-angular/cypress/support:/e2e/support
-      - ${SUBMODULE_DIR}/rapydo-angular/cypress/plugins:/e2e/plugins
-      - ${SUBMODULE_DIR}/rapydo-angular/cypress/fixtures:/e2e/fixtures
-      - ${SUBMODULE_DIR}/rapydo-angular/cypress/tsconfig.json:/e2e/tsconfig.json
-      - ${SUBMODULE_DIR}/rapydo-angular/cypress/e2e:/e2e/rapydo
-      - ${DATA_DIR}/${COMPOSE_PROJECT_NAME}/frontend/node_modules:/e2e/node_modules
-      - ${PROJECT_DIR}/frontend/e2e:/e2e/custom
+      #- ${SUBMODULE_DIR}/rapydo-angular/cypress.config.ts:/app/cypress.config.ts
+      #- ${SUBMODULE_DIR}/rapydo-angular/cypress/coverage.webpack.js:/app/cypress/coverage.webpack.js
+      #- ${SUBMODULE_DIR}/rapydo-angular/cypress/support:/e2e/support
+      #- ${SUBMODULE_DIR}/rapydo-angular/cypress/plugins:/e2e/plugins
+      #- ${SUBMODULE_DIR}/rapydo-angular/cypress/fixtures:/e2e/fixtures
+      #- ${SUBMODULE_DIR}/rapydo-angular/cypress/tsconfig.json:/e2e/tsconfig.json
+      #- ${SUBMODULE_DIR}/rapydo-angular/cypress/e2e:/e2e/rapydo
+      #- ${DATA_DIR}/${COMPOSE_PROJECT_NAME}/frontend/node_modules:/e2e/node_modules
+      #- ${PROJECT_DIR}/frontend/e2e:/e2e/custom
 
       - ${DATA_DIR}/logs:/logs

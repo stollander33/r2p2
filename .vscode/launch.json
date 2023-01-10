@@ -1,0 +1,73 @@
+{
+    // Use IntelliSense para saber los atributos posibles.
+    // Mantenga el puntero para ver las descripciones de los existentes atributos.
+    // Para más información, visite: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+         {
+            "name": "1.create",
+            "args": [
+                "create",
+                "otro",
+                "--auth",
+                "no",
+                "--frontend",
+                "angular",
+                "--origin-url",
+                "https://github.com/stollander33/rapydo-test-1.git",
+                "--force",
+                "--current"
+            ],
+            "program": "${workspaceFolder}/controller/__main__.py",
+            "cwd": "${workspaceFolder}/../tmp",
+            "type": "python",
+            "request": "launch",
+            "envFile": "${workspaceFolder}/.env",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "python": "/home/stoll/anaconda3/envs/r2p2/bin/python"
+        },
+        {
+            "name": "2.init",
+            "args": [
+                "init",
+            ],
+            "program": "${workspaceFolder}/controller/__main__.py",
+            "cwd": "${workspaceFolder}/../tmp",
+            "type": "python",
+            "request": "launch",
+            "envFile": "${workspaceFolder}/.env",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "python": "/home/stoll/anaconda3/envs/r2p2/bin/python"
+        },
+        {
+            "name": "3.pull",
+            "args": [
+                "pull",
+            ],
+            "program": "${workspaceFolder}/controller/__main__.py",
+            "cwd": "${workspaceFolder}/../tmp",
+            "type": "python",
+            "request": "launch",
+            "envFile": "${workspaceFolder}/.env",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "python": "/home/stoll/anaconda3/envs/r2p2/bin/python"
+        },        
+        {
+            "name": "4.start",
+            "args": [
+                "start",
+            ],
+            "program": "${workspaceFolder}/controller/__main__.py",
+            "cwd": "${workspaceFolder}/../tmp",
+            "type": "python",
+            "request": "launch",
+            "envFile": "${workspaceFolder}/.env",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "python": "/home/stoll/anaconda3/envs/r2p2/bin/python"
+        },        
+    ]
+}

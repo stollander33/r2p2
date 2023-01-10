@@ -46,13 +46,13 @@ if [[ -d "/app/cypress" ]]; then
     chown -R node:node /app/cypress
 fi
 
-run_as_node "env > /tmp/.env"
-run_as_node "node /rapydo/config-env.ts"
-run_as_node "node /rapydo/merge.js"
+#run_as_node "env > /tmp/.env"
+#run_as_node "node /rapydo/config-env.ts"
+#run_as_node "node /rapydo/merge.js"
 
 # berry == stable
-run_as_node "yarn set version berry"
-run_as_node "yarn plugin import workspace-tools"
+#run_as_node "yarn set version berry"
+#run_as_node "yarn plugin import workspace-tools"
 
 if [ "$ENABLE_YARN_PNP" == "0" ]; then
     NODE_LINKER="node-modules"
@@ -68,7 +68,7 @@ fi
 
 
 # https://github.com/yarnpkg/berry/tree/master/packages/plugin-typescript#yarnpkgplugin-typescript
-run_as_node "yarn plugin import typescript"
+#run_as_node "yarn plugin import typescript"
 
 if [ "$APP_MODE" == "production" ]; then
 
@@ -106,9 +106,9 @@ elif [ "$APP_MODE" == "development" ]; then
 
     run_as_node "yarn install"
     # Do not install dev dependencies (only needed for tests)
-    run_as_node "yarn workspaces focus --production"
-    run_as_node "npx browserslist@latest --update-db"
-    run_as_node "reload-types"
+#    run_as_node "yarn workspaces focus --production"
+#    run_as_node "npx browserslist@latest --update-db"
+#    run_as_node "reload-types"
     run_as_node "yarn start"
 
 elif [ "$APP_MODE" == "test" ]; then

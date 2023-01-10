@@ -160,7 +160,7 @@ class Project:
             return False
 
         self.expected_folders.append(self.p_path("frontend"))
-
+        """
         if self.frontend == ANGULAR:
             self.expected_folders.extend(
                 [
@@ -263,7 +263,7 @@ class Project:
                     self.p_path("frontend", "integration"),
                 ]
             )
-
+        """
         return True
 
     @staticmethod
