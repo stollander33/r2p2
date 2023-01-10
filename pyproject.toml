@@ -1,7 +1,7 @@
 [project]
-name = "rapydo"
+name = "r2p2"
 version = "3.0"
-description = "Manage and deploy projects based on RAPyDo framework"
+description = "Manage and deploy projects based on R2P2 framework"
 requires-python = ">=3.8"
 license = {file = "LICENSE"}
 dynamic = ["dependencies", "optional-dependencies"]
@@ -23,13 +23,12 @@ dependencies = {file = ["requirements.txt"]}
 optional-dependencies = {dev = {file = ["requirements.dev.txt"]}, types = {file = ["requirements.types.txt"]}}
 
 [project.urls]
-homepage = "https://rapydo.github.io/docs"
-documentation = "https://do.readthedocs.io"
+homepage = "https://github.com/stollander33/r2p2"
 repository = "https://github.com/stollander33/r2p2"
-# changelog = "https://github.com/stollander33/r2p2"
+changelog = "https://github.com/stollander33/r2p2"
 
 [project.scripts]
-rapydo = "controller.__main__:main"
+r2d2 = "controller.__main__:main"
 
 [build-system]
 requires = ["setuptools>=64.0", "wheel>=0.34.0"]

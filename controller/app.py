@@ -426,7 +426,7 @@ class Application:
             post_params = f" {post_params}"
 
         log.debug(
-            "Command: rapydo {}{}{}",
+            "Command: r2p2 {}{}{}",
             pre_params,
             Configuration.action,
             post_params,
@@ -462,7 +462,7 @@ class Application:
             self.read_specs(read_extended=True)
             return None
 
-        log.debug("You are using RAPyDo version {}", __version__)
+        log.debug("You are using R2p2 version {}", __version__)
         if Configuration.check:
             log.info("Selected project: {}", Configuration.project)
         else:

@@ -2,10 +2,10 @@ variables:
   submodules:
     http-api:
       online_url: https://github.com/stollander33/http-api.git
-    rapydo-angular:
+    r2p2-angular:
       online_url: https://github.com/stollander33/rapydo-angular.git
       _if: $$angular
-    do:
+    r2p2:
       online_url: https://github.com/stollander33/r2p2.git
 
   roles:

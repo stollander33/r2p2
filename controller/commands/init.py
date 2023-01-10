@@ -1,5 +1,5 @@
 """
-Initialize the current RAPyDo project
+Initialize the current R2p2 project
 """
 from pathlib import Path
 
@@ -11,7 +11,7 @@ from controller.deploy.docker import Docker
 from controller.project import ANGULAR
 
 
-@Application.app.command(help="Initialize current RAPyDo project")
+@Application.app.command(help="Initialize current R2p2 project")
 def init(
     create_projectrc: bool = typer.Option(
         False,

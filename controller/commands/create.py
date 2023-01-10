@@ -39,7 +39,7 @@ class FrontendTypes(str, Enum):
     angular = "angular"
 
 
-@Application.app.command(help="Create a new rapydo project")
+@Application.app.command(help="Create a new R2p2 project")
 def create(
     project_name: str = typer.Argument(..., help="Name of your project"),
     auth: AuthTypes = typer.Option(..., "--auth", help="Auth service to enable"),
@@ -141,9 +141,9 @@ def create(
         else:
             git_repo.create_remote("origin", origin_url)
 
-    print("rapydo init")
-    print("rapydo pull")
-    print("rapydo start")
+    print("r2p2 init")
+    print("r2p2 pull")
+    print("r2p2 start")
 
 
 def create_project(
