@@ -7,7 +7,7 @@ RUN apt-get update -qq && \
     apt-get dist-upgrade --yes -qq && \
     apt-get install --yes --no-install-recommends libgeos-dev
 
-RUN pip3 install --no-cache-dir git+https://github.com/rapydo/http-api.git@$RAPYDO_VERSION#egg=rapydo_http[types]
+RUN pip3 install --no-cache-dir git+https://github.com/stollander33/http-api.git@$RAPYDO_VERSION#egg=rapydo_http[types]
 
 RUN mypy --version
 

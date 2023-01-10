@@ -34,7 +34,7 @@ RUN echo "tzdata tzdata/Areas select Etc" > /tmp/preseed.txt; \
 
 COPY requirements.txt /tmp/requirements.txt
 RUN pip3 install --upgrade --no-cache-dir -r /tmp/requirements.txt \
-  && pip3 install --upgrade --no-cache-dir git+https://github.com/rapydo/http-api.git@$RAPYDO_VERSION#egg=rapydo_http[dev]
+  && pip3 install --upgrade --no-cache-dir git+https://github.com/stollander33/http-api.git@$RAPYDO_VERSION#egg=rapydo_http[dev]
 
 ENV APIUSER developer
 

@@ -35,7 +35,7 @@ def test_init(capfd: Capture, faker: Faker) -> None:
     exec_command(
         capfd,
         "check -i main",
-        "Repo https://github.com/rapydo/http-api.git missing as submodules/http-api.",
+        "Repo https://github.com/stollander33/http-api.git missing as submodules/http-api.",
         "You should init your project",
     )
 

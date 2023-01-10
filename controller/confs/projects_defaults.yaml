@@ -1,9 +1,9 @@
 variables:
   submodules:
     http-api:
-      online_url: https://github.com/rapydo/http-api.git
+      online_url: https://github.com/stollander33/http-api.git
     rapydo-angular:
-      online_url: https://github.com/rapydo/rapydo-angular.git
+      online_url: https://github.com/stollander33/rapydo-angular.git
       _if: $$angular
     do:
       online_url: https://github.com/stollander33/r2p2.git
