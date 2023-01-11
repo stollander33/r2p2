@@ -7,11 +7,13 @@ RUN test -n "$CURRENT_UID"
 ARG CURRENT_GID
 RUN test -n "$CURRENT_GID"
 
-ENV PYTHON_VERSION=3.11
+ENV PYTHON_VERSION=3.10
 ENV APIUSER=developer
-ENV FLASK_PORT=8080
-ENV CODE_DIR=/code
+ENV FLASK_PORT=${FLASK_PORT}
+
+ENV CODE_DIR=/app
 ENV CERTDIR=/opt/certificates
+ENV PYTHONPATH "$CODE_DIR/:$PYTHONPATH"
 
 ENV TERM=xterm-256color
 ENV LC_ALL=C.UTF-8
@@ -43,7 +45,8 @@ RUN echo "tzdata tzdata/Areas select Etc" > /tmp/preseed.txt; \
      && apt-get autoremove --yes && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt /tmp/requirements.txt
-RUN pip3 install --upgrade --no-cache-dir -r /tmp/requirements.txt && pip3 install --upgrade --no-cache-dir git+https://github.com/stollander33/http-api.git@$RAPYDO_VERSION#egg=rapydo_http[dev]
+RUN pip3 install --upgrade --no-cache-dir -r /tmp/requirements.txt 
+# && pip3 install --upgrade --no-cache-dir git+https://github.com/stollander33/http-api.git@$RAPYDO_VERSION#egg=rapydo_http[dev]
 
 RUN useradd \
     -r -M -d /home/$APIUSER -s /bin/bash -p ! \
@@ -63,18 +66,35 @@ EXPOSE $FLASK_PORT
 # generated with http://bashrcgenerator.com/
 RUN echo 'export PS1="\\[\\033[38;5;11m\\]\\u\\[$(tput sgr0)\\]\\[\\033[38;5;15m\\]@\\h:\\[$(tput sgr0)\\]\\[\\033[38;5;6m\\][\\w]:\\[$(tput sgr0)\\]\\[\\033[38;5;15m\\] \\[$(tput sgr0)\\]"' >> /etc/bash.bashrc
 
-RUN mkdir $CODE_DIR
-COPY ./docker-entrypoint.sh /usr/local/bin/docker-entrypoint
-COPY ./docker-entrypoint-celery.sh /usr/local/bin/docker-entrypoint-celery
+RUN mkdir -p $CODE_DIR
+
+COPY ./docker-entrypoint.sh /docker-entrypoint
+
+RUN  chmod +x /docker-entrypoint
+
+#COPY ./docker-entrypoint.sh /usr/local/bin/docker-entrypoint
+#COPY ./docker-entrypoint-celery.sh /usr/local/bin/docker-entrypoint-celery
 
 WORKDIR $CODE_DIR
-ENTRYPOINT ["/usr/local/bin/dumb-init", "--"]
-STOPSIGNAL SIGINT
-CMD ["docker-entrypoint", "rest"]
 
+#ENTRYPOINT ["/usr/local/bin/dumb-init", "--"]
+STOPSIGNAL SIGINT
+
+
+
+#CMD ["/code/docker-entrypoint", "rest"]
 # UTILITIES
-COPY --chmod=740 reload-backend.sh /usr/local/bin/reload
-COPY --chmod=740 celery-healthcheck.sh /usr/local/bin/celery-healthcheck
+#COPY --chmod=740 reload-backend.sh /usr/local/bin/reload
+#COPY --chmod=740 celery-healthcheck.sh /usr/local/bin/celery-healthcheck
 
 RUN echo '/bin/bash /etc/banner.sh' >> /etc/bash.bashrc
+
 COPY banner.sh print_versions.sh /etc/
+
+USER ${APIUSER}
+
+EXPOSE 8000
+
+# ENTRYPOINT ["/docker-entrypoint"]
+
+CMD ["tail", "-f","/dev/null"]

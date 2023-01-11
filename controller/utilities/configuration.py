@@ -718,7 +718,7 @@ def mix_configuration(
         if elements is None:  # pragma: no cover
             # TypedDict key must be a string literal;
             if isinstance(base[key], dict):  # type: ignore
-                log.warning("Cannot replace {} with empty list", key)
+                log.debug("Cannot replace {} with empty list", key)
                 continue
 
         if isinstance(elements, dict):

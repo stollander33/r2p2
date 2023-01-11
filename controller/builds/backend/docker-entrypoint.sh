@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+cd /app
+
 if [[ ! -t 0 ]]; then
     /bin/bash /etc/banner.sh
 fi
@@ -24,18 +26,6 @@ fi
 chown -R ${APIUSER} ${APP_SECRETS}
 chmod u+w ${APP_SECRETS}
 
-init_file="${APP_SECRETS}/initialized"
-if [[ ! -f "${init_file}" ]]; then
-    echo "Init flask app"
-    HOME=${CODE_DIR} su -p ${APIUSER} -c 'restapi init --wait'
-    if [[ "$?" == "0" ]]; then
-        # Sync after init with compose call from outside
-        touch ${init_file}
-    else
-        echo "Failed to startup flask!"
-        exit 1
-    fi
-fi
 
 # fix permissions on the main development folder
 # chown ${APIUSER} ${CODE_DIR}
@@ -67,14 +57,14 @@ if [[ "${CRONTAB_ENABLE}" == "1" ]]; then
     fi
 fi
 
-if [[ "$1" != 'rest' ]]; then
+#if [[ "$1" != 'rest' ]]; then
     ##CUSTOM COMMAND
-    echo "Requested custom command:"
-    echo "\$ $@"
-    $@
-else
+#    echo "Requested custom command:"
+#    echo "\$ $@"
+#    $@
+#else
     ##NORMAL MODES
-    echo "REST API backend server is ready to be launched"
+    echo "Backend server is ready to be launched"
 
     if [[ ${ALEMBIC_AUTO_MIGRATE} == "1" ]] && [[ ${AUTH_SERVICE} == "sqlalchemy" ]]; then
 
@@ -112,14 +102,36 @@ else
         fi
 
     else
-        echo "Development mode"
+        echo "Development mode in /app"
+        cd /app
+        init_file="${APP_SECRETS}/initialized_venv"
+        if [[ ! -f "${init_file}" ]]; then
+            echo "Installing app first time..."
+            poetry install 
+            poetry run python app/backend_pre_start.py
+            # Run migrations
+            poetry run alembic upgrade head
+            # Create initial data in DB
+            poetry run python app/initial_data.py            
 
-        if [[ "${API_AUTOSTART}" == "1" ]]; then
-            HOME=$CODE_DIR su -p ${APIUSER} -c 'restapi wait'
-            HOME=$CODE_DIR su -p ${APIUSER} -c 'restapi launch'
+            touch ${init_file}
         fi
-
+        poetry run uvicorn app.main:app --host 0.0.0.0 --port 8000
+        # sleep infinity
     fi
-
     sleep infinity
+#fi
+
+
+init_file="${APP_SECRETS}/initialized"
+if [[ ! -f "${init_file}" ]]; then
+    echo "Init flask app"
+#    HOME=${CODE_DIR} su -p ${APIUSER} -c 'restapi init --wait'
+#    if [[ "$?" == "0" ]]; then
+        # Sync after init with compose call from outside
+        touch ${init_file}
+#    else
+#        echo "Failed to startup flask!"
+#        exit 1
+#    fi
 fi

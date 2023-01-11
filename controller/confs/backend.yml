@@ -66,7 +66,7 @@ services:
       PYTHONMALLOC: ${PYTHONMALLOC}
       PYTHONASYNCIODEBUG: ${PYTHONASYNCIODEBUG}
       PYTHONFAULTHANDLER: ${PYTHONFAULTHANDLER}
-
+      FLASK_HOST: ${FLASK_HOST}
       FLASK_APP: ${PYTHON_PATH}/restapi/${PYTHON_MAIN_FILE}.py
       FLASK_DEBUG: ${FLASK_DEBUG}
       API_AUTOSTART: ${API_AUTOSTART}
@@ -203,6 +203,7 @@ services:
       - data_imports:${DATA_IMPORT_FOLDER}
       # Vanilla code
       - ${PROJECT_DIR}/backend:/code/${COMPOSE_PROJECT_NAME}
+      
       # From project, if any
       - ${BASE_PROJECT_DIR}/backend:/code/${EXTENDED_PROJECT}
       - ${BASE_PROJECT_DIR}/project_configuration.yaml:/code/confs/extended_project_configuration.yaml

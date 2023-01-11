@@ -103,7 +103,7 @@ variables:
 
     PROXY_HOST: myproxy.dockerized.io
     # in production mode this will be mapped on port 80
-    PROXY_DEV_PORT: 81
+    PROXY_DEV_PORT: 80
     PROXY_PROD_PORT: 443
     # if 1 an additional proxy or load balancer is assumed and the backend will extract
     # the client IP from the X-Forwarded-For instead of X-Real-IP

@@ -53,7 +53,7 @@ COPY --chmod=740 launch_gunicorn.sh /usr/local/bin/mygunicorn
 # variables
 ENV PAGER less
 ENV PYTHONIOENCODING="utf-8"
-ENV FLASK_PORT 8080
+ENV FLASK_PORT 8000
 ENV CODE_DIR /code
 ENV CERTDIR /opt/certificates
 ENV PYTHONPATH $CODE_DIR
