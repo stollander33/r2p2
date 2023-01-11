@@ -202,8 +202,8 @@ services:
       - ssl_certs:/etc/letsencrypt
       - data_imports:${DATA_IMPORT_FOLDER}
       # Vanilla code
-      - ${PROJECT_DIR}/backend:/code/${COMPOSE_PROJECT_NAME}
-      
+      - ${PROJECT_DIR}/backend:/code/${COMPOSE_PROJECT_NAME}      
+      - ${BASE_PROJECT_DIR}/backend:/app      
       # From project, if any
       - ${BASE_PROJECT_DIR}/backend:/code/${EXTENDED_PROJECT}
       - ${BASE_PROJECT_DIR}/project_configuration.yaml:/code/confs/extended_project_configuration.yaml

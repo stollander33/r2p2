@@ -11,7 +11,7 @@ ENV PYTHON_VERSION=3.10
 ENV APIUSER=developer
 ENV FLASK_PORT=${FLASK_PORT}
 
-ENV CODE_DIR=/app
+ENV CODE_DIR=/code
 ENV CERTDIR=/opt/certificates
 ENV PYTHONPATH "$CODE_DIR/:$PYTHONPATH"
 
@@ -75,12 +75,10 @@ RUN  chmod +x /docker-entrypoint
 #COPY ./docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 #COPY ./docker-entrypoint-celery.sh /usr/local/bin/docker-entrypoint-celery
 
-WORKDIR $CODE_DIR
+
 
 #ENTRYPOINT ["/usr/local/bin/dumb-init", "--"]
 STOPSIGNAL SIGINT
-
-
 
 #CMD ["/code/docker-entrypoint", "rest"]
 # UTILITIES
@@ -91,10 +89,10 @@ RUN echo '/bin/bash /etc/banner.sh' >> /etc/bash.bashrc
 
 COPY banner.sh print_versions.sh /etc/
 
-USER ${APIUSER}
+#USER ${APIUSER}
 
 EXPOSE 8000
-
+WORKDIR /app
 # ENTRYPOINT ["/docker-entrypoint"]
 
 CMD ["tail", "-f","/dev/null"]
