@@ -8,13 +8,15 @@
             "name": "1.create",
             "args": [
                 "create",
-                "scrapping",
+                "mytasks",
                 "--auth",
                 "no",
                 "--frontend",
-                "angular",
-                "--origin-url",
-                "https://github.com/stollander33/rapydo-test-1.git",
+                "no",
+                "-s","celery",
+                "-s","postgres",
+                "-s","redis",
+                "-s","flower",
                 "--force",
                 "--current"
             ],
@@ -56,9 +58,26 @@
             "python": "/home/stoll/anaconda3/envs/r2p2/bin/python"
         },        
         {
-            "name": "4.start",
+            "name": "4.strestoreart",
             "args": [
-                "start",
+                "restore",
+                "postgres",
+                "2023_01_13-15_39_16.sql.gz"
+                
+            ],
+            "program": "${workspaceFolder}/controller/__main__.py",
+            "cwd": "${workspaceFolder}/../tmp/NUEVO",
+            "type": "python",
+            "request": "launch",
+            "envFile": "${workspaceFolder}/.env",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "python": "/home/stoll/anaconda3/envs/r2p2/bin/python"
+        },            
+        {
+            "name": "9. start",
+            "args": [
+                "-p","scrapping","start",
             ],
             "program": "${workspaceFolder}/controller/__main__.py",
             "cwd": "${workspaceFolder}/../tmp/NUEVO",

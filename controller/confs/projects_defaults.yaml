@@ -346,7 +346,7 @@ variables:
     FORCE_SSR_SERVER_MODE: 0
     SPINNER_TYPE: "ball-scale-multiple"
 
-    ACTIVATE_AUTH: 1
+    ACTIVATE_AUTH: 0
     AUTH_SERVICE: NO_AUTHENTICATION
     AUTH_DEFAULT_USERNAME: "user@nomail.org"
     AUTH_DEFAULT_PASSWORD: "D3vMode!" # This default is invalidated in production mode

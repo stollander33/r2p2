@@ -20,7 +20,7 @@ services:
       retries: 3
       start_period: 5m
     hostname: angular
-    command: tail -f /dev/null
+    # command: tail -f /dev/null
     networks:
       default:
         aliases:
@@ -103,8 +103,8 @@ services:
       # DISPLAY: ":0"
 
     volumes:
-      # - /tmp/.X11-unix:/tmp/.X11-unix:ro
-      # - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket
+      - /tmp/.X11-unix:/tmp/.X11-unix:ro
+      - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket
       # - ${SUBMODULE_DIR}/rapydo-angular/utility:/rapydo
       - ${DATA_DIR}/${COMPOSE_PROJECT_NAME}/frontend:/frontend
       #- ${DATA_DIR}/${COMPOSE_PROJECT_NAME}/karma:/coverage

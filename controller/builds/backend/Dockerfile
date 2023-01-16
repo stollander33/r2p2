@@ -23,7 +23,9 @@ ENV DEBIAN_FRONTEND=noninteractive
 ENV DEBCONF_NONINTERACTIVE_SEEN=true
 ENV PAGER=less
 ENV PYTHONIOENCODING="utf-8"
-ENV PYTHONPATH="${CODE_DIR}"
+ENV PYTHONPATH="/app:${CODE_DIR}:PYTHONPATH"
+
+RUN mkdir -p $CODE_DIR
 
 ## preesed tzdata, update package index, upgrade packages and install needed software
 
@@ -45,8 +47,11 @@ RUN echo "tzdata tzdata/Areas select Etc" > /tmp/preseed.txt; \
      && apt-get autoremove --yes && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt /tmp/requirements.txt
+
 RUN pip3 install --upgrade --no-cache-dir -r /tmp/requirements.txt 
 # && pip3 install --upgrade --no-cache-dir git+https://github.com/stollander33/http-api.git@$RAPYDO_VERSION#egg=rapydo_http[dev]
+
+RUN poetry config virtualenvs.create false 
 
 RUN useradd \
     -r -M -d /home/$APIUSER -s /bin/bash -p ! \
@@ -66,16 +71,13 @@ EXPOSE $FLASK_PORT
 # generated with http://bashrcgenerator.com/
 RUN echo 'export PS1="\\[\\033[38;5;11m\\]\\u\\[$(tput sgr0)\\]\\[\\033[38;5;15m\\]@\\h:\\[$(tput sgr0)\\]\\[\\033[38;5;6m\\][\\w]:\\[$(tput sgr0)\\]\\[\\033[38;5;15m\\] \\[$(tput sgr0)\\]"' >> /etc/bash.bashrc
 
-RUN mkdir -p $CODE_DIR
-
 COPY ./docker-entrypoint.sh /docker-entrypoint
 
-RUN  chmod +x /docker-entrypoint
-
-#COPY ./docker-entrypoint.sh /usr/local/bin/docker-entrypoint
-#COPY ./docker-entrypoint-celery.sh /usr/local/bin/docker-entrypoint-celery
 
 
+COPY ./docker-entrypoint.sh /usr/local/bin/docker-entrypoint
+COPY ./docker-entrypoint-celery.sh /usr/local/bin/docker-entrypoint-celery
+RUN  chmod +x /usr/local/bin/docker-entrypoint
 
 #ENTRYPOINT ["/usr/local/bin/dumb-init", "--"]
 STOPSIGNAL SIGINT
@@ -86,13 +88,14 @@ STOPSIGNAL SIGINT
 #COPY --chmod=740 celery-healthcheck.sh /usr/local/bin/celery-healthcheck
 
 RUN echo '/bin/bash /etc/banner.sh' >> /etc/bash.bashrc
-
 COPY banner.sh print_versions.sh /etc/
 
-#USER ${APIUSER}
+USER $APIUSER
 
-EXPOSE 8000
-WORKDIR /app
-# ENTRYPOINT ["/docker-entrypoint"]
+EXPOSE $FLASK_PORT
 
-CMD ["tail", "-f","/dev/null"]
+WORKDIR $CODE_DIR
+
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint"]
+
+CMD ["api"]

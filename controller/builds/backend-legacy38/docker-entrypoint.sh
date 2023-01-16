@@ -4,6 +4,8 @@ set -e
 if [[ ! -t 0 ]]; then
     /bin/bash /etc/banner.sh
 fi
+echo "Running in... $(pwd)"
+pwd
 
 DEVID=$(id -u ${APIUSER})
 if [[ "${DEVID}" != "${CURRENT_UID}" ]]; then

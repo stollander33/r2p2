@@ -1,36 +1,39 @@
 #!/bin/bash
 set -e
 
-cd /app
+echo "starting docker-entrypoint.sh..."
 
 if [[ ! -t 0 ]]; then
     /bin/bash /etc/banner.sh
 fi
 
 DEVID=$(id -u ${APIUSER})
+
 if [[ "${DEVID}" != "${CURRENT_UID}" ]]; then
     echo "Fixing uid of user ${APIUSER} from ${DEVID} to ${CURRENT_UID}..."
-    usermod -u ${CURRENT_UID} ${APIUSER}
+    #usermod -u ${CURRENT_UID} ${APIUSER}
 fi
 
 GROUPID=$(id -g ${APIUSER})
 if [[ "${GROUPID}" != "${CURRENT_GID}" ]]; then
     echo "Fixing gid user ${APIUSER} from ${GROUPID} to ${CURRENT_GID}..."
-    groupmod -og ${CURRENT_GID} ${APIUSER}
+    #groupmod -og ${CURRENT_GID} ${APIUSER}
 fi
 
 if [[ -z APP_MODE ]]; then
     APP_MODE="development"
 fi
-
+echo "> chown -R ${APIUSER} ${APP_SECRETS}"
 chown -R ${APIUSER} ${APP_SECRETS}
+
+echo "> chmod u+w ${APP_SECRETS}"
 chmod u+w ${APP_SECRETS}
-
-
 # fix permissions on the main development folder
-# chown ${APIUSER} ${CODE_DIR}
+echo "> chown ${APIUSER} ${CODE_DIR}"
+chown ${APIUSER} ${CODE_DIR}
 
 if [[ -d "${CERTDIR}" ]]; then
+    echo "chown -R ${APIUSER} ${CERTDIR}"
     chown -R ${APIUSER} ${CERTDIR}
 fi
 
@@ -57,12 +60,12 @@ if [[ "${CRONTAB_ENABLE}" == "1" ]]; then
     fi
 fi
 
-#if [[ "$1" != 'rest' ]]; then
+if [[ "$1" == 'custom' ]]; then
     ##CUSTOM COMMAND
-#    echo "Requested custom command:"
-#    echo "\$ $@"
-#    $@
-#else
+    echo "Requested custom command:"
+    echo "\$ $@"
+    $@
+else
     ##NORMAL MODES
     echo "Backend server is ready to be launched"
 
@@ -102,25 +105,60 @@ fi
         fi
 
     else
-        echo "Development mode in /app"
-        cd /app
-        init_file="${APP_SECRETS}/initialized_venv"
+        echo "Development mode"
+        echo "I'm $(whoami)"
+        init_file="/tmp/initialized_venv"
+
+        if [[ "${FORCE_INSTALL}" == '1' ]]; then
+            if [[ -f "${init_file}" ]]; then
+                rm -f ${init_file}
+            fi
+        fi
+        
         if [[ ! -f "${init_file}" ]]; then
             echo "Installing app first time..."
+            poetry config virtualenvs.create true
             poetry install 
             poetry run python app/backend_pre_start.py
             # Run migrations
-            poetry run alembic upgrade head
+            poetry run alembic -c alembic.ini upgrade head
             # Create initial data in DB
-            poetry run python app/initial_data.py            
-
+            poetry run python app/initial_data.py                      
             touch ${init_file}
         fi
-        poetry run uvicorn app.main:app --host 0.0.0.0 --port 8000
+            
+        if [[ "$1" == 'shell' ]]; then
+            ##CUSTOM COMMAND
+            echo "Requested shell: waiting..."
+            sleep infinity            
+        fi                
+        if [[ "$1" == 'api' ]]; then
+            echo "Requested api: starting..."
+            poetry run uvicorn app.main:app --host 0.0.0.0 --port 8000            
+        fi                
+        if [[ "$1" == 'worker' ]]; then
+            echo "Requested celery: starting..."
+            poetry run  celery --app app.core.celery_app  worker \            
+                                -Q main-queue -E \
+                                --concurrency=1 \
+                                --pool=prefork \
+                                -Ofair \
+                                -n api-%h
+        fi                      
+                  
+        if [[ "$1" == 'flower' ]]; then
+            echo "Requested flower: starting..."
+            poetry run celery --app app.core.celery_app beat \
+                --pidfile /tmp/celerybeat.pid \
+                --loglevel DEBUG \
+                --max-interval '30' \
+                --scheduler redbeat.RedBeatScheduler
+        fi                                        
+        # poetry run uvicorn app.main:app --host 0.0.0.0 --port 8000
         # sleep infinity
     fi
     sleep infinity
-#fi
+fi
 
 
 init_file="${APP_SECRETS}/initialized"

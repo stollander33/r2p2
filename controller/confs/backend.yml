@@ -203,7 +203,7 @@ services:
       - data_imports:${DATA_IMPORT_FOLDER}
       # Vanilla code
       - ${PROJECT_DIR}/backend:/code/${COMPOSE_PROJECT_NAME}      
-      - ${BASE_PROJECT_DIR}/backend:/app      
+
       # From project, if any
       - ${BASE_PROJECT_DIR}/backend:/code/${EXTENDED_PROJECT}
       - ${BASE_PROJECT_DIR}/project_configuration.yaml:/code/confs/extended_project_configuration.yaml
@@ -457,7 +457,7 @@ services:
         CURRENT_GID: ${CURRENT_GID}
     image: richardssenstollander/${BACKEND_BUILD_MODE}:${RAPYDO_VERSION}
     entrypoint: docker-entrypoint-celery
-    command: celery --app restapi.connectors.celery.worker.celery_app worker --concurrency=1 --pool=${CELERY_POOL_MODE} -Ofair -Q celery -n ${COMPOSE_PROJECT_NAME}-%h
+    command: celery --app app.core.celery_app worker --concurrency=1 --pool=${CELERY_POOL_MODE} -Ofair -Q celery -n ${COMPOSE_PROJECT_NAME}-%h
     healthcheck:
       test: "/usr/local/bin/celery-healthcheck"
       interval: ${HEALTHCHECK_INTERVAL}
@@ -588,7 +588,7 @@ services:
     image: richardssenstollander/${BACKEND_BUILD_MODE}:${RAPYDO_VERSION}
     hostname: celery-beat
     entrypoint: docker-entrypoint-celery
-    command: celery --app restapi.connectors.celery.beat.celery_app beat --pidfile /tmp/celerybeat.pid --loglevel DEBUG --max-interval 30 --scheduler ${CELERYBEAT_SCHEDULER}
+    command: celery --app app.core.celery_app beat --pidfile /tmp/celerybeat.pid --loglevel DEBUG --max-interval 30 --scheduler ${CELERYBEAT_SCHEDULER}
     healthcheck:
       test: "pgrep --pidfile /tmp/celerybeat.pid"
       interval: ${HEALTHCHECK_INTERVAL}
@@ -737,7 +737,8 @@ services:
       CURRENT_UID: ${CURRENT_UID}
       CURRENT_GID: ${CURRENT_GID}
       REDIS_PASSWORD: "${REDIS_PASSWORD}"
-
+    ports:
+      - "6379:6379"
   ##########################
   ### SERVICE INTERFACES ###
   ##########################
@@ -755,7 +756,7 @@ services:
 
     entrypoint: docker-entrypoint-celery
     # user: root
-    command: celery --app restapi.connectors.celery.worker.celery_app flower --basic_auth=${FLOWER_USER}:${FLOWER_PASSWORD} --port=${FLOWER_PORT} --persistent --state_save_interval=10000 --db=${FLOWER_DBDIR}/flower ${FLOWER_SSL_OPTIONS} -n flower_monitor
+    command: celery --app app.core.celery_app flower --basic_auth=${FLOWER_USER}:${FLOWER_PASSWORD} --port=${FLOWER_PORT} --persistent --state_save_interval=10000 --db=${FLOWER_DBDIR}/flower ${FLOWER_SSL_OPTIONS} -n flower_monitor
     healthcheck:
       test: "wget -t 1 --quiet --no-check-certificate $$FLOWER_PROTOCOL://$$FLOWER_USER:$$FLOWER_PASSWORD@localhost:$$FLOWER_PORT -O - > /dev/null"
       interval: ${HEALTHCHECK_INTERVAL}

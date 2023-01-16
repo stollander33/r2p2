@@ -1,34 +1,36 @@
-FROM node:18.13.0-buster
-# https://nodejs.org/en/blog/release
+FROM node:14-alpine 
+# AS build-stage
 
-ARG CURRENT_UID
-RUN test -n "$CURRENT_UID"
-ARG CURRENT_GID
-RUN test -n "$CURRENT_GID"
+WORKDIR /app
 
-RUN apt-get update -qq \
-    && apt-get dist-upgrade --yes -qq \
-    && apt-get autoremove --yes && apt-get clean && rm -rf /var/lib/apt/lists/*
+COPY app/package.json .
 
-RUN groupmod -og $CURRENT_GID node && usermod -u $CURRENT_UID node
+RUN npm install
 
-ENV NODE_PATH /opt/node_modules
-# used by print_versions
-ENV ANGULAR_VERSION 15.0.5
+RUN apk add git bash 
 
-RUN npm install -g npm yarn @angular/cli@${ANGULAR_VERSION} ts-json-schema-generator@1.2.0 sitemap-generator-cli@7.5.0 --force
+COPY ./app .
 
-RUN npm install --prefix /opt dotenv@16.0.3 deepmerge@4.2.2 ajv@8.12.0 ajv-formats@2.1.1
+# RUN npm run serve
 
-WORKDIR /app/
+# production stage
+#FROM nginx AS production-stage
+
+#COPY --from=build-stage /app/dist /usr/share/nginx/html
+
+
+COPY ./docker-entrypoint.sh /entrypoint.sh
+RUN   chmod +x /entrypoint.sh
+
+# CMD ["docker-entrypoint"]
+
+COPY banner.sh print_versions.sh /etc/
+
+RUN echo '/bin/bash /etc/banner.sh' >> /etc/bash.bashrc
 
 EXPOSE 8080
 
-COPY ./docker-entrypoint.sh /usr/local/bin/docker-entrypoint
-COPY --chmod=777 ./reload-types.sh /usr/local/bin/reload-types
-
-CMD ["docker-entrypoint"]
-
-COPY --chmod=740 reload-angular.sh /usr/local/bin/reload
-COPY banner.sh print_versions.sh /etc/
-RUN echo '/bin/bash /etc/banner.sh' >> /etc/bash.bashrc
+CMD ["/entrypoint.sh"]
+#CMD ["tail","-f","/dev/null"]
+#CMD ["npm","run","serve"]
+#CMD ["nginx", "-g", "daemon off;"]

@@ -111,6 +111,10 @@ fi
 # *.service are loaded from ${APP_MODE}.conf
 # confs with no extension are loaded from service conf
 
+echo "APP_MODE= ${APP_MODE}"
+echo "FRONTEND= ${FRONTEND}"
+echo "FRONTEND= ${FRONTEND}-${APP_MODE}.conf"
+
 convert_conf ${TEMPLATE_DIR}/limit_req_zone.conf ${CONF_DIR}/limit_req_zone.preconf
 convert_conf ${TEMPLATE_DIR}/${APP_MODE}.conf ${CONF_DIR}/${APP_MODE}.conf
 convert_conf ${TEMPLATE_DIR}/service_confs/backend.conf ${CONF_DIR}/backend.service
@@ -126,8 +130,11 @@ fi
 
 convert_conf ${TEMPLATE_DIR}/headers_confs/security-headers.conf ${CONF_DIR}/security-headers
 
+
+echo "DOMAIN_ALIASES: ${DOMAIN_ALIASES}"
 # Set domain aliases with redirect alias -> main domain
 for ALIAS_DOMAIN in ${DOMAIN_ALIASES/,/ }; do
+    echo "ALIAS_DOMAIN: ${ALIAS_DOMAIN}"
     export ALIAS_DOMAIN
     convert_conf ${TEMPLATE_DIR}/aliases.conf ${CONF_DIR}/alias.${ALIAS_DOMAIN}.conf
 done
