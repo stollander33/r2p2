@@ -71,10 +71,23 @@ EXPOSE $FLASK_PORT
 # generated with http://bashrcgenerator.com/
 RUN echo 'export PS1="\\[\\033[38;5;11m\\]\\u\\[$(tput sgr0)\\]\\[\\033[38;5;15m\\]@\\h:\\[$(tput sgr0)\\]\\[\\033[38;5;6m\\][\\w]:\\[$(tput sgr0)\\]\\[\\033[38;5;15m\\] \\[$(tput sgr0)\\]"' >> /etc/bash.bashrc
 
+# Allow installing dev dependencies to run tests
+ARG INSTALL_DEV=false
+RUN test -n "$INSTALL_DEV"
+RUN bash -c "if [ $INSTALL_DEV == 'true' ] ; then poetry install --no-root ; else poetry install --no-root --no-dev ; fi"
+
+RUN poetry config virtualenvs.create false
+RUN poetry install
+RUN poetry update uvicorn
+
+# For development, Jupyter remote kernel, Hydrogen
+# Using inside the container:
+# jupyter lab --ip=0.0.0.0 --allow-root --NotebookApp.custom_display_url=http://127.0.0.1:8888
+ARG INSTALL_JUPYTER=false
+RUN test -n "$INSTALL_JUPYTER"
+RUN bash -c "if [ $INSTALL_JUPYTER == 'true' ] ; then pip install jupyterlab ; fi"
+
 COPY ./docker-entrypoint.sh /docker-entrypoint
-
-
-
 COPY ./docker-entrypoint.sh /usr/local/bin/docker-entrypoint
 COPY ./docker-entrypoint-celery.sh /usr/local/bin/docker-entrypoint-celery
 RUN  chmod +x /usr/local/bin/docker-entrypoint

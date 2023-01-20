@@ -8,20 +8,17 @@
             "name": "1.create",
             "args": [
                 "create",
-                "mytasks",
+                "projvue",
                 "--auth",
                 "no",
                 "--frontend",
                 "no",
-                "-s","celery",
-                "-s","postgres",
-                "-s","redis",
-                "-s","flower",
+                "-s","vuefastapi",
                 "--force",
                 "--current"
             ],
             "program": "${workspaceFolder}/controller/__main__.py",
-            "cwd": "${workspaceFolder}/../tmp/NUEVO",
+            "cwd": "${workspaceFolder}/../tmp/PROJ_APP",
             "type": "python",
             "request": "launch",
             "envFile": "${workspaceFolder}/.env",
@@ -35,7 +32,7 @@
                 "init",
             ],
             "program": "${workspaceFolder}/controller/__main__.py",
-            "cwd": "${workspaceFolder}/../tmp/NUEVO",
+            "cwd": "${workspaceFolder}/../tmp/PROJ_APP",
             "type": "python",
             "request": "launch",
             "envFile": "${workspaceFolder}/.env",
@@ -46,10 +43,10 @@
         {
             "name": "3.pull",
             "args": [
-                "pull",
+                "-p","projvue","pull",
             ],
             "program": "${workspaceFolder}/controller/__main__.py",
-            "cwd": "${workspaceFolder}/../tmp/NUEVO",
+            "cwd": "${workspaceFolder}/../tmp/PROJ_APP",
             "type": "python",
             "request": "launch",
             "envFile": "${workspaceFolder}/.env",
@@ -66,7 +63,7 @@
                 
             ],
             "program": "${workspaceFolder}/controller/__main__.py",
-            "cwd": "${workspaceFolder}/../tmp/NUEVO",
+            "cwd": "${workspaceFolder}/../tmp/DEALS",
             "type": "python",
             "request": "launch",
             "envFile": "${workspaceFolder}/.env",
@@ -77,10 +74,10 @@
         {
             "name": "9. start",
             "args": [
-                "-p","scrapping","start",
+                "-p","projvue","start"
             ],
             "program": "${workspaceFolder}/controller/__main__.py",
-            "cwd": "${workspaceFolder}/../tmp/NUEVO",
+            "cwd": "${workspaceFolder}/../tmp/PROJ_APP",
             "type": "python",
             "request": "launch",
             "envFile": "${workspaceFolder}/.env",

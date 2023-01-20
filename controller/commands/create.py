@@ -32,6 +32,7 @@ class ServiceTypes(str, Enum):
     flower = "flower"
     fail2ban = "fail2ban"
     appvue = "appvue"
+    vuefastapi = "vuefastapi"
     apptypescript = "apptypescript"
     ftp = "ftp"
 
