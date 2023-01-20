@@ -342,6 +342,9 @@ services:
         aliases:
           - vuefastapi.dockerized.io
 
+    volumes:      
+      - ${BASE_PROJECT_DIR}/backend/app:/code
+      
     logging:
       driver: ${DOCKER_LOGGING_DRIVER}
       options: {}

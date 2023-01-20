@@ -23,6 +23,7 @@ ANGULAR = "angular"
 VUE = "vue"
 TYPESCRIPT = "typescript"
 GITKEEP = ".gitkeep"
+INIT_PY = "__init__.py"
 
 
 class Project:
@@ -60,10 +61,11 @@ class Project:
         self.expected_folders.append(self.p_path("confs"))
         self.expected_folders.append(self.p_path("builds"))
         self.expected_folders.append(self.p_path("backend"))
-        self.expected_folders.append(self.p_path("backend","app"))
-        self.expected_folders.append(self.p_path("backend","app", "tasks"))
-        self.expected_folders.append(self.p_path("backend","app", "tests"))
-        self.expected_folders.append(self.p_path("backend","app", "cron"))
+        self.expected_folders.append(self.p_path("backend","app"))        
+        self.expected_folders.append(self.p_path("backend","tasks"))
+        self.expected_folders.append(self.p_path("backend","tests"))
+        self.expected_folders.append(self.p_path("backend", "cron"))
+        
 
         self.suggested_gitkeep.append(SUBMODULES_DIR.joinpath(GITKEEP))
         self.suggested_gitkeep.append(DATA_DIR.joinpath(GITKEEP))
@@ -71,9 +73,9 @@ class Project:
         self.suggested_gitkeep.append(BACKUP_DIR.joinpath(GITKEEP))
         self.suggested_gitkeep.append(self.p_path("builds", GITKEEP))
         self.suggested_gitkeep.append(self.p_path("backend","app", GITKEEP))        
-        self.suggested_gitkeep.append(self.p_path("backend","app", "cron", GITKEEP))        
-        self.suggested_gitkeep.append(self.p_path("backend","app", "tasks", GITKEEP))
-        self.suggested_gitkeep.append(self.p_path("backend","app", "tests", GITKEEP))
+        self.suggested_gitkeep.append(self.p_path("backend","cron", GITKEEP))        
+        self.suggested_gitkeep.append(self.p_path("backend","tasks", GITKEEP))
+        self.suggested_gitkeep.append(self.p_path("backend","tests", GITKEEP))
         
         self.expected_files.append(self.p_path("project_configuration.yaml"))
         self.expected_files.append(self.p_path("confs", "commons.yml"))

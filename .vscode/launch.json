@@ -33,7 +33,7 @@
                 "init",
             ],
             "program": "${workspaceFolder}/controller/__main__.py",
-            "cwd": "${workspaceFolder}/../tmp/PROJ_APP",
+            "cwd": "${workspaceFolder}/../tmp/VUEFASTAPI",
             "type": "python",
             "request": "launch",
             "envFile": "${workspaceFolder}/.env",
@@ -44,10 +44,10 @@
         {
             "name": "3.pull",
             "args": [
-                "-p","projvue","pull",
+                "-p","vuefastap2","pull",
             ],
             "program": "${workspaceFolder}/controller/__main__.py",
-            "cwd": "${workspaceFolder}/../tmp/PROJ_APP",
+            "cwd": "${workspaceFolder}/../tmp/VUEFASTAPI",
             "type": "python",
             "request": "launch",
             "envFile": "${workspaceFolder}/.env",
@@ -64,7 +64,7 @@
                 
             ],
             "program": "${workspaceFolder}/controller/__main__.py",
-            "cwd": "${workspaceFolder}/../tmp/DEALS",
+            "cwd": "${workspaceFolder}/../tmp/VUEFASTAPI",
             "type": "python",
             "request": "launch",
             "envFile": "${workspaceFolder}/.env",
@@ -75,10 +75,10 @@
         {
             "name": "9. start",
             "args": [
-                "-p","projvue","start"
+                "-p","vuefastap2","start"
             ],
             "program": "${workspaceFolder}/controller/__main__.py",
-            "cwd": "${workspaceFolder}/../tmp/PROJ_APP",
+            "cwd": "${workspaceFolder}/../tmp/VUEFASTAPI",
             "type": "python",
             "request": "launch",
             "envFile": "${workspaceFolder}/.env",

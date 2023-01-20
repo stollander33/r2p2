@@ -70,6 +70,5 @@ services:
       # - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket
       - ${SUBMODULE_DIR}/rapydo-angular/utility:/rapydo
 
-      - ${DATA_DIR}/${COMPOSE_PROJECT_NAME}/frontend:/app1
-      - ${PROJECT_DIR}/frontend:/app2
+      - ${DATA_DIR}/${COMPOSE_PROJECT_NAME}/frontend:/frontend
       - ${DATA_DIR}/logs:/logs
