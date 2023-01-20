@@ -52,7 +52,7 @@ from controller import (
 )
 from controller.commands import load_commands
 from controller.packages import Packages
-from controller.project import ANGULAR, NO_FRONTEND, Project
+from controller.project import ANGULAR, VUE, TYPESCRIPT, NO_FRONTEND, Project
 from controller.templating import Templating
 from controller.utilities import configuration, git, services, system
 from controller.utilities.tables import print_table
@@ -786,6 +786,8 @@ You can use of one:
         MODE = f"{Configuration.stack}.yml"
         customconf = Configuration.ABS_PROJECT_PATH.joinpath(CONTAINERS_YAML_DIRNAME)
         angular_loaded = False
+        typescript_loaded = False
+        vue_loaded = False
 
         def add(p: Path, f: str) -> None:
             compose_files.append(p.joinpath(f))
@@ -794,6 +796,26 @@ You can use of one:
             add(CONFS_DIR, "backend.yml")
 
         if Configuration.load_frontend:
+            if Configuration.frontend == TYPESCRIPT:
+                add(CONFS_DIR, "typescript.yml")
+                typescript_loaded = True
+                if (
+                    Configuration.swarm_mode
+                    and Configuration.production
+                    and not Configuration.FORCE_COMPOSE_ENGINE
+                ):
+                    add(CONFS_DIR, "swarm_typescript_prod_options.yml")
+
+            if Configuration.frontend == VUE:
+                add(CONFS_DIR, "vue.yml")
+                vue_loaded = True
+                if (
+                    Configuration.swarm_mode
+                    and Configuration.production
+                    and not Configuration.FORCE_COMPOSE_ENGINE
+                ):
+                    add(CONFS_DIR, "swarm_vue_prod_options.yml")
+
             if Configuration.frontend == ANGULAR:
                 add(CONFS_DIR, "angular.yml")
                 angular_loaded = True
@@ -820,6 +842,10 @@ You can use of one:
 
             if angular_loaded:
                 add(CONFS_DIR, "angular-development.yml")
+            if vue_loaded:
+                add(CONFS_DIR, "vue-development.yml")
+            if typescript_loaded:
+                add(CONFS_DIR, "typescript-development.yml")
 
         if self.extended_project and self.extended_project_path:
             extendedconf = self.extended_project_path.joinpath(CONTAINERS_YAML_DIRNAME)

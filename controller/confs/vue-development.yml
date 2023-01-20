@@ -1,0 +1,75 @@
+version: "3.9"
+
+services:
+  proxy:
+    volumes:
+      - ${DATA_DIR}/${COMPOSE_PROJECT_NAME}/frontend:/app
+
+  frontend:
+    build:
+      context: ${SUBMODULE_DIR}/do/controller/builds/${FRONTEND_BUILD_MODE}
+      args:
+        RAPYDO_VERSION: ${RAPYDO_VERSION}
+        CURRENT_UID: ${CURRENT_UID}
+        CURRENT_GID: ${CURRENT_GID}
+    image: richardssenstollander/${FRONTEND_BUILD_MODE}:${RAPYDO_VERSION}
+    ports:
+      - "8080:8080"      
+    hostname: vue
+    networks:
+      default:
+        aliases:
+          - frontend.dockerized.io
+    environment:
+      ACTIVATE: ${ACTIVATE_VUE}
+      CURRENT_UID: ${CURRENT_UID}
+      CURRENT_GID: ${CURRENT_GID}
+      APP_MODE: ${APP_MODE}
+      VERSION: ${PROJECT_VERSION}
+      BUILD: ${BUILD}
+      RAPYDO_VERSION: ${RAPYDO_VERSION}
+      PROJECT_NAME: ${COMPOSE_PROJECT_NAME}
+      PROJECT_TITLE: "${PROJECT_TITLE}"
+      PROJECT_DESCRIPTION: "${PROJECT_DESCRIPTION}"
+      PROJECT_KEYWORDS: "${PROJECT_KEYWORDS}"
+      ENABLE_ANGULAR_SSR: ${ENABLE_ANGULAR_SSR}
+      ENABLE_YARN_PNP: ${ENABLE_YARN_PNP}
+      FORCE_SSR_SERVER_MODE: ${FORCE_SSR_SERVER_MODE}
+      SPINNER_TYPE: ${SPINNER_TYPE}
+      SHOW_LOGIN: ${SHOW_LOGIN}
+      ENABLE_FOOTER: ${ENABLE_FOOTER}
+      ALLOW_PASSWORD_RESET: ${ALLOW_PASSWORD_RESET}
+      ALLOW_REGISTRATION: ${ALLOW_REGISTRATION}
+      ALLOW_TERMS_OF_USE: ${ALLOW_TERMS_OF_USE}
+      AUTH_ENABLE: ${ACTIVATE_AUTH}
+      AUTH_MIN_PASSWORD_LENGTH: ${AUTH_MIN_PASSWORD_LENGTH}
+      # Full URL, if set HOST, PORT AND PREFIX will be ignored
+      BACKEND_URL: "${BACKEND_URL}"
+      BACKEND_HOST: ${PROJECT_DOMAIN}
+      BACKEND_PORT: ${BACKEND_API_PORT}
+      BACKEND_PREFIX: "${BACKEND_PREFIX}"
+      # Full URL, if set BASE_HREF and FRONTEND_PREFIX will be ignored
+      FRONTEND_URL: ${FRONTEND_URL}
+      BASE_HREF: ${PROJECT_DOMAIN}
+      FRONTEND_PREFIX: ${FRONTEND_PREFIX}
+      FRONTEND_BUILD_MODE: ${FRONTEND_BUILD_MODE}
+      # Prevent: error YN0028: The lockfile would have been created by this install,
+      #                        which is explicitly forbidden.
+      YARN_ENABLE_IMMUTABLE_INSTALLS: "false"
+      SENTRY_URL: ${SENTRY_URL}
+
+      # Force xterm to prevent:
+      # `tput: No value for $TERM and no -T specified`
+      # Raised when running Cypress on non-tty shells
+      TERM: xterm
+
+      # DISPLAY: ":0"
+    
+    volumes:
+      # - /tmp/.X11-unix:/tmp/.X11-unix:ro
+      # - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket
+      - ${SUBMODULE_DIR}/rapydo-angular/utility:/rapydo
+
+      - ${DATA_DIR}/${COMPOSE_PROJECT_NAME}/frontend:/app1
+      - ${PROJECT_DIR}/frontend:/app2
+      - ${DATA_DIR}/logs:/logs

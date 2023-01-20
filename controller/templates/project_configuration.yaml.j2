@@ -33,7 +33,19 @@ variables:
     r2p2:
       # branch: "do-branch"
   env:
+    {% if enable_appvue -%}
+    ACTIVATE_APPVUE: 1
+    {% endif -%}
+    {% if enable_apptypescript -%}
+    ACTIVATE_APPTYPESCRIPT: 1
+    {% endif -%}
+    {% if enable_django -%}
+    ACTIVATE_DJANGO: 1
+    {% endif -%}
 
+    {% if enable_vuefastapi -%}
+    ACTIVATE_VUEFASTAPI: 1
+    {% endif -%}
     {% if auth_service == "NO_AUTHENTICATION" -%}
     ACTIVATE_AUTH: 0
     {% else -%}

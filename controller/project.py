@@ -20,6 +20,8 @@ from controller.utilities import git
 NO_AUTHENTICATION = "NO_AUTHENTICATION"
 NO_FRONTEND = "nofrontend"
 ANGULAR = "angular"
+VUE = "vue"
+TYPESCRIPT = "typescript"
 GITKEEP = ".gitkeep"
 
 
@@ -116,27 +118,6 @@ class Project:
                 DATA_DIR.joinpath("uploads"),
             ]
         )
-
-        # Removed since 0.7.1
-#        self.obsolete_files.append(self.p_path("confs", "debug.yml"))
-        # Removed since 0.7.4
-#        self.obsolete_files.append(SUBMODULES_DIR.joinpath("rapydo-confs"))
-        # Removed since 0.7.5
-        self.obsolete_files.append(SUBMODULES_DIR.joinpath("frontend"))
-        # Removed since 0.7.6
-#        self.obsolete_files.append(self.p_path("backend", "apis"))
-        # Removed since 0.8
-#        self.obsolete_files.append(self.p_path("backend", "models", "swagger.yaml"))
-#        self.obsolete_files.append(self.p_path("backend", "endpoints", "profile.py"))
-        # Removed since 0.9
- #       self.obsolete_files.append(self.p_path("backend", "initialization"))
-        #self.obsolete_files.append(self.p_path("frontend", "assets", "favicon.ico"))
-        # Removed since 1.2
-        self.obsolete_files.append(Path(".pre-commit-config.yaml"))
-        # Removed since 2.3
-        self.obsolete_files.append(Path(".isort.cfg"))
-        # Removed since 3.0
-        self.obsolete_files.append(SUBMODULES_DIR.joinpath("build-templates"))
         return True
 
     def load_frontend_scaffold(self, frontend: Optional[str]) -> bool:

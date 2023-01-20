@@ -74,12 +74,18 @@ class Configuration(TypedDict, total=False):
 class FRONTEND_FRAMEWORK_VALUES(Enum):
     nofrontend = "nofrontend"
     angular = "angular"
-
+    vue = "vue"        
+    typescript = "typescript"
 
 class FRONTEND_BUILD_MODE_VALUES(Enum):
     angular = "angular"
     angular_test = "angular-test"
-
+    vue = "vue"        
+    typescript = "typescript"
+    vue_dev = "vue-dev"        
+    typescript_dev = "typescript-dev"
+    vue_test = "vue-test"
+    
 
 class DOCKER_LOGGING_DRIVERS(Enum):
     json_file = "json-file"

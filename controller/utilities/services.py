@@ -77,6 +77,7 @@ def find_active(services: ComposeServices) -> List[str]:
     active_services = walk_services(base_actives, dependencies)
     return active_services
 
+# TODO: IMPORTANTE  para añadir nuevas variables de entorno
 
 vars_to_services_mapping: Dict[str, str] = {
     "FLOWER_USER": "flower",
@@ -199,6 +200,9 @@ def get_default_user(service: str) -> Optional[str]:
 
 
 def get_default_command(service: str) -> str:
+
+    if service == "vuefastapi":
+        return "run api"
 
     if service == "backend":
         return "restapi launch"

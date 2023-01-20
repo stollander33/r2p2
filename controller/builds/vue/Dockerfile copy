@@ -1,0 +1,41 @@
+FROM node:14-alpine AS build-stage
+
+ARG CURRENT_UID
+RUN test -n "$CURRENT_UID"
+ARG CURRENT_GID
+RUN test -n "$CURRENT_GID"
+
+ENV NODE_PATH /opt/node_modules
+ENV VUE_VERSION 15.0.4
+
+WORKDIR /app
+
+EXPOSE 8080
+EXPOSE 80
+
+COPY ./app/package.json  .
+
+RUN npm install -g yarn && yarn  install
+
+COPY ./app .
+
+RUN  yarn build
+
+COPY ./docker-entrypoint.sh /usr/local/bin/docker-entrypoint
+
+CMD ["docker-entrypoint"]
+
+COPY banner.sh print_versions.sh /etc/
+RUN echo '/bin/bash /etc/banner.sh' >> /etc/bash.bashrc
+
+
+# production stage
+FROM nginx AS production-stage
+
+COPY --from=build-stage /app/dist /usr/share/nginx/html
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
+
+

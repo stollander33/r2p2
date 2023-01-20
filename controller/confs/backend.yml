@@ -324,6 +324,33 @@ services:
       CURRENT_UID: ${CURRENT_UID}
       CURRENT_GID: ${CURRENT_GID}
 
+  vuefastapi:
+    restart: always
+    build:
+      context: ${SUBMODULE_DIR}/do/controller/builds/vuefastapi
+      args:
+        RAPYDO_VERSION: ${RAPYDO_VERSION}
+        CURRENT_UID: ${CURRENT_UID}
+        CURRENT_GID: ${CURRENT_GID}
+
+    image: docker.io/richardssenstollander/vuefastapi:${RAPYDO_VERSION}
+    hostname: vuefastapi
+    networks:
+      default:
+        aliases:
+          - vuefastapi.dockerized.io
+
+    logging:
+      driver: ${DOCKER_LOGGING_DRIVER}
+      options: {}
+
+    environment:
+      ACTIVATE: ${ACTIVATE_VUEFASTAPI}
+      VUEFASTAPI_ENABLED: ${ACTIVATE_VUEFASTAPI}
+      CURRENT_UID: ${CURRENT_UID}
+      CURRENT_GID: ${CURRENT_GID}
+
+
   ###################
   ###  DATABASES  ###
   ###################

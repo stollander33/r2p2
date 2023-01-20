@@ -31,12 +31,16 @@ class ServiceTypes(str, Enum):
     celery = "celery"
     flower = "flower"
     fail2ban = "fail2ban"
+    appvue = "appvue"
+    apptypescript = "apptypescript"
     ftp = "ftp"
 
 
 class FrontendTypes(str, Enum):
     no = "no"
     angular = "angular"
+    vue = "vue"
+    typescript = "vuetypescript"
 
 
 @Application.app.command(help="Create a new R2p2 project")
@@ -165,6 +169,10 @@ def create_project(
     enable_neo4j = auth == "neo4j" or "neo4j" in services
     enable_rabbit = "rabbit" in services
     enable_redis = "redis" in services
+    enable_apptypescript = "apptypescript" in services
+    enable_vuefastapi = "vuefastapi" in services
+    enable_appvue = "appvue" in services
+    enable_django = "django" in services
     enable_celery = "celery" in services
     enable_flower = "flower" in services
     enable_fail2ban = "fail2ban" in services
