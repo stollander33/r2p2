@@ -13,10 +13,14 @@ RUN test -n "$APP_SECRETS"
 ARG APP_PORT
 RUN test -n "$APP_PORT"
 
+ARG TAG
+RUN test -n "$TAG"
+
 ENV APP_PORT=${APP_PORT}
 
 ENV PYTHON_VERSION=3.10
 ENV APIUSER=developer
+ENV VUEFASTAPI_VERSION=${TAG}
 
 ENV CODE_DIR=/code
 ENV CERTDIR=/opt/certificates
@@ -65,6 +69,7 @@ RUN useradd \
     --uid $CURRENT_UID $APIUSER \
     && groupmod -og $CURRENT_GID $APIUSER \
     && mkdir -p /home/$APIUSER \
+    && touch /home/$APIUSER/.bashrc \
     && chown $CURRENT_UID:$CURRENT_GID /home/$APIUSER
 
 WORKDIR $CODE_DIR

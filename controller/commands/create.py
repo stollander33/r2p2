@@ -271,6 +271,7 @@ def create_project(
                 "enable_celery": enable_celery,
                 "enable_flower": enable_flower,
                 "enable_fail2ban": enable_fail2ban,
+                "enable_vuefastapi": enable_vuefastapi,
                 "enable_ftp": enable_ftp,
                 "celery_broker": celery_broker,
                 "celery_backend": celery_backend,

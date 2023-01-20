@@ -32,8 +32,8 @@ printf "
    ██╔═══╝    ╚██╔╝    
    ██║         ██║     
    ╚═╝         ╚═╝     
- ${VERSIONS}
  
+ ${VERSIONS}
 "
 
 

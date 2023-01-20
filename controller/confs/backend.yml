@@ -335,6 +335,8 @@ services:
 
     image: docker.io/richardssenstollander/vuefastapi:${RAPYDO_VERSION}
     hostname: vuefastapi
+    ports:
+      - "8001:8000"
     networks:
       default:
         aliases:
