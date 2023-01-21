@@ -8,18 +8,19 @@
             "name": "1.create",
             "args": [
                 "create",
-                "vuefastap2",
+                "jobscrapper",
                 "--auth",
                 "no",
                 "--frontend",
                 "vue",
                 "-s","vuefastapi",
                 "-s","postgres",
+                "-s","redis",
                 "--force",
                 "--current"
             ],
             "program": "${workspaceFolder}/controller/__main__.py",
-            "cwd": "${workspaceFolder}/../tmp/VUEFASTAPI",
+            "cwd": "${workspaceFolder}/../tmp/JOBSCRAPPER",
             "type": "python",
             "request": "launch",
             "envFile": "${workspaceFolder}/.env",
@@ -33,7 +34,7 @@
                 "init",
             ],
             "program": "${workspaceFolder}/controller/__main__.py",
-            "cwd": "${workspaceFolder}/../tmp/VUEFASTAPI",
+            "cwd": "${workspaceFolder}/../tmp/JOBSCRAPPER",
             "type": "python",
             "request": "launch",
             "envFile": "${workspaceFolder}/.env",
@@ -44,41 +45,24 @@
         {
             "name": "3.pull",
             "args": [
-                "-p","vuefastap2","pull",
+                "-p","jobscrapper","pull",
             ],
             "program": "${workspaceFolder}/controller/__main__.py",
-            "cwd": "${workspaceFolder}/../tmp/VUEFASTAPI",
+            "cwd": "${workspaceFolder}/../tmp/JOBSCRAPPER",
             "type": "python",
             "request": "launch",
             "envFile": "${workspaceFolder}/.env",
             "console": "integratedTerminal",
             "justMyCode": false,
             "python": "/home/stoll/anaconda3/envs/r2p2/bin/python"
-        },        
-        {
-            "name": "4.strestoreart",
-            "args": [
-                "restore",
-                "postgres",
-                "2023_01_13-15_39_16.sql.gz"
-                
-            ],
-            "program": "${workspaceFolder}/controller/__main__.py",
-            "cwd": "${workspaceFolder}/../tmp/VUEFASTAPI",
-            "type": "python",
-            "request": "launch",
-            "envFile": "${workspaceFolder}/.env",
-            "console": "integratedTerminal",
-            "justMyCode": false,
-            "python": "/home/stoll/anaconda3/envs/r2p2/bin/python"
-        },            
+        },                 
         {
             "name": "9. start",
             "args": [
-                "-p","vuefastap2","start"
+                "-p","jobscrapper","start"
             ],
             "program": "${workspaceFolder}/controller/__main__.py",
-            "cwd": "${workspaceFolder}/../tmp/VUEFASTAPI",
+            "cwd": "${workspaceFolder}/../tmp/JOBSCRAPPER",
             "type": "python",
             "request": "launch",
             "envFile": "${workspaceFolder}/.env",

@@ -17,6 +17,7 @@ ARG TAG
 RUN test -n "$TAG"
 
 ENV APP_PORT=${APP_PORT}
+RUN test -n "$APP_PORT"
 
 ENV PYTHON_VERSION=3.10
 ENV APIUSER=developer
@@ -37,6 +38,9 @@ ENV PYTHONIOENCODING="utf-8"
 ENV PYTHONPATH="/app:${CODE_DIR}:PYTHONPATH"
 
 RUN mkdir -p $CODE_DIR
+
+RUN mkdir -p /data
+
 
 ## preesed tzdata, update package index, upgrade packages and install needed software
 
