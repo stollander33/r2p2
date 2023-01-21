@@ -19,3 +19,5 @@ volumes:
     driver: local
   redisdata:
     driver: local
+  www:
+    driver: local    

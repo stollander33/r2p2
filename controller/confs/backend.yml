@@ -27,10 +27,11 @@ networks:
 # #####################
 
 services:
+
   backend:
     restart: always
     build:
-      context: ${SUBMODULE_DIR}/do/controller/builds/${BACKEND_BUILD_MODE}
+      context: ${SUBMODULE_DIR}/r2p2/controller/builds/${BACKEND_BUILD_MODE}
       args:
         RAPYDO_VERSION: ${RAPYDO_VERSION}
         CURRENT_UID: ${CURRENT_UID}
@@ -196,7 +197,7 @@ services:
       SQLALCHEMY_WARN_20: "1"
     volumes:
       # configuration files
-      - ${SUBMODULE_DIR}/do/controller/confs/projects_defaults.yaml:/code/confs/projects_defaults.yaml
+      - ${SUBMODULE_DIR}/r2p2/controller/confs/projects_defaults.yaml:/code/confs/projects_defaults.yaml
       - ${PROJECT_DIR}/project_configuration.yaml:/code/confs/project_configuration.yaml
       - secrets:${APP_SECRETS}
       - ssl_certs:/etc/letsencrypt
@@ -229,7 +230,7 @@ services:
   proxy:
     restart: always
     build:
-      context: ${SUBMODULE_DIR}/do/controller/builds/proxy
+      context: ${SUBMODULE_DIR}/r2p2/controller/builds/proxy
       args:
         RAPYDO_VERSION: ${RAPYDO_VERSION}
         CURRENT_UID: ${CURRENT_UID}
@@ -248,6 +249,7 @@ services:
       start_period: 5m
 
     volumes:
+      - www:/var/www
       - ssl_certs:/etc/letsencrypt
     networks:
       default:
@@ -298,7 +300,7 @@ services:
   maintenance:
     # restart: always
     build:
-      context: ${SUBMODULE_DIR}/do/controller/builds/proxy
+      context: ${SUBMODULE_DIR}/r2p2/controller/builds/proxy
       args:
         RAPYDO_VERSION: ${RAPYDO_VERSION}
         CURRENT_UID: ${CURRENT_UID}
@@ -327,7 +329,7 @@ services:
   vuefastapi:
     restart: always
     build:
-      context: ${SUBMODULE_DIR}/do/controller/builds/vuefastapi
+      context: ${SUBMODULE_DIR}/r2p2/controller/builds/vuefastapi
       args:
         RAPYDO_VERSION: ${RAPYDO_VERSION}
         CURRENT_UID: ${CURRENT_UID}
@@ -355,14 +357,13 @@ services:
       CURRENT_UID: ${CURRENT_UID}
       CURRENT_GID: ${CURRENT_GID}
 
-
   ###################
   ###  DATABASES  ###
   ###################
   postgres:
     restart: always
     build:
-      context: ${SUBMODULE_DIR}/do/controller/builds/postgres
+      context: ${SUBMODULE_DIR}/r2p2/controller/builds/postgres
       args:
         RAPYDO_VERSION: ${RAPYDO_VERSION}
         CURRENT_UID: ${CURRENT_UID}
@@ -398,7 +399,7 @@ services:
   neo4j:
     restart: always
     build:
-      context: ${SUBMODULE_DIR}/do/controller/builds/neo4j
+      context: ${SUBMODULE_DIR}/r2p2/controller/builds/neo4j
       args:
         RAPYDO_VERSION: ${RAPYDO_VERSION}
         CURRENT_UID: ${CURRENT_UID}
@@ -482,7 +483,7 @@ services:
   celery:
     restart: always
     build:
-      context: ${SUBMODULE_DIR}/do/controller/builds/${BACKEND_BUILD_MODE}
+      context: ${SUBMODULE_DIR}/r2p2/controller/builds/${BACKEND_BUILD_MODE}
       args:
         RAPYDO_VERSION: ${RAPYDO_VERSION}
         CURRENT_UID: ${CURRENT_UID}
@@ -592,7 +593,7 @@ services:
       SMTP_PASSWORD: "${SMTP_PASSWORD}"
     volumes:
       # configuration files
-      - ${SUBMODULE_DIR}/do/controller/confs/projects_defaults.yaml:/code/confs/projects_defaults.yaml
+      - ${SUBMODULE_DIR}/r2p2/controller/confs/projects_defaults.yaml:/code/confs/projects_defaults.yaml
       - ${PROJECT_DIR}/project_configuration.yaml:/code/confs/project_configuration.yaml
       - ssl_certs:/etc/letsencrypt
       # Vanilla code
@@ -612,7 +613,7 @@ services:
   celerybeat:
     restart: always
     build:
-      context: ${SUBMODULE_DIR}/do/controller/builds/${BACKEND_BUILD_MODE}
+      context: ${SUBMODULE_DIR}/r2p2/controller/builds/${BACKEND_BUILD_MODE}
       args:
         RAPYDO_VERSION: ${RAPYDO_VERSION}
         CURRENT_UID: ${CURRENT_UID}
@@ -680,7 +681,7 @@ services:
       SMTP_PASSWORD: "${SMTP_PASSWORD}"
     volumes:
       # configuration files
-      - ${SUBMODULE_DIR}/do/controller/confs/projects_defaults.yaml:/code/confs/projects_defaults.yaml
+      - ${SUBMODULE_DIR}/r2p2/controller/confs/projects_defaults.yaml:/code/confs/projects_defaults.yaml
       - ${PROJECT_DIR}/project_configuration.yaml:/code/confs/project_configuration.yaml
       - ssl_certs:/etc/letsencrypt
       # Vanilla code
@@ -698,7 +699,7 @@ services:
   rabbit:
     restart: always
     build:
-      context: ${SUBMODULE_DIR}/do/controller/builds/rabbitmq
+      context: ${SUBMODULE_DIR}/r2p2/controller/builds/rabbitmq
       args:
         RAPYDO_VERSION: ${RAPYDO_VERSION}
         CURRENT_UID: ${CURRENT_UID}
@@ -741,7 +742,7 @@ services:
   redis:
     restart: always
     build:
-      context: ${SUBMODULE_DIR}/do/controller/builds/redis
+      context: ${SUBMODULE_DIR}/r2p2/controller/builds/redis
       args:
         RAPYDO_VERSION: ${RAPYDO_VERSION}
         CURRENT_UID: ${CURRENT_UID}
@@ -778,7 +779,7 @@ services:
   flower:
     restart: always
     build:
-      context: ${SUBMODULE_DIR}/do/controller/builds/${BACKEND_BUILD_MODE}
+      context: ${SUBMODULE_DIR}/r2p2/controller/builds/${BACKEND_BUILD_MODE}
       args:
         RAPYDO_VERSION: ${RAPYDO_VERSION}
         CURRENT_UID: ${CURRENT_UID}
@@ -805,7 +806,7 @@ services:
       - ${FLOWER_PORT}:${FLOWER_PORT}
     volumes:
       # configuration files
-      - ${SUBMODULE_DIR}/do/controller/confs/projects_defaults.yaml:/code/confs/projects_defaults.yaml
+      - ${SUBMODULE_DIR}/r2p2/controller/confs/projects_defaults.yaml:/code/confs/projects_defaults.yaml
       - ${PROJECT_DIR}/project_configuration.yaml:/code/confs/project_configuration.yaml
       - ssl_certs:/etc/letsencrypt
       # Vanilla code
@@ -871,7 +872,7 @@ services:
 
   swaggerui:
     build:
-      context: ${SUBMODULE_DIR}/do/controller/builds/swaggerui
+      context: ${SUBMODULE_DIR}/r2p2/controller/builds/swaggerui
       args:
         RAPYDO_VERSION: ${RAPYDO_VERSION}
         CURRENT_UID: ${CURRENT_UID}
@@ -894,7 +895,7 @@ services:
 
   adminer:
     build:
-      context: ${SUBMODULE_DIR}/do/controller/builds/adminer
+      context: ${SUBMODULE_DIR}/r2p2/controller/builds/adminer
       args:
         RAPYDO_VERSION: ${RAPYDO_VERSION}
         CURRENT_UID: ${CURRENT_UID}
@@ -922,7 +923,7 @@ services:
   ###################
   ftp:
     restart: always
-    build: ${SUBMODULE_DIR}/do/controller/builds/ftp
+    build: ${SUBMODULE_DIR}/r2p2/controller/builds/ftp
     image: richardssenstollander/ftp:${RAPYDO_VERSION}
     volumes:
       - pureftpd:/etc/pure-ftpd/passwd
@@ -973,7 +974,7 @@ services:
 
   registry:
     restart: always
-    build: ${SUBMODULE_DIR}/do/controller/builds/registry
+    build: ${SUBMODULE_DIR}/r2p2/controller/builds/registry
     image: richardssenstollander/registry:${RAPYDO_VERSION}
     hostname: registry
     # make it common to all projects
@@ -1018,7 +1019,7 @@ services:
 
   fail2ban:
     restart: always
-    build: ${SUBMODULE_DIR}/do/controller/builds/fail2ban
+    build: ${SUBMODULE_DIR}/r2p2/controller/builds/fail2ban
     image: richardssenstollander/fail2ban:${RAPYDO_VERSION}
     # This works for compose but not for swarm.
     # In swarm mode this flag is replaced with an external network
@@ -1053,10 +1054,10 @@ services:
     volumes:
       - /var/log:/var/log/host_logs:ro
       # /data/db could be attached to a data-dir
-      - ${SUBMODULE_DIR}/do/controller/confs/fail2ban/jails:/data/jail.d.available
-      - ${SUBMODULE_DIR}/do/controller/confs/fail2ban/filters:/data/filter.d.available
-      - ${SUBMODULE_DIR}/do/controller/confs/fail2ban/actions:/data/action.d.available
-      - ${SUBMODULE_DIR}/do/controller/confs/fail2ban/ip.blacklist:/data/ip.blacklist
+      - ${SUBMODULE_DIR}/r2p2/controller/confs/fail2ban/jails:/data/jail.d.available
+      - ${SUBMODULE_DIR}/r2p2/controller/confs/fail2ban/filters:/data/filter.d.available
+      - ${SUBMODULE_DIR}/r2p2/controller/confs/fail2ban/actions:/data/action.d.available
+      - ${SUBMODULE_DIR}/r2p2/controller/confs/fail2ban/ip.blacklist:/data/ip.blacklist
 
   ################
   ###   MYPY   ###
@@ -1064,7 +1065,7 @@ services:
 
   mypy:
     build:
-      context: ${SUBMODULE_DIR}/do/controller/builds/mypy
+      context: ${SUBMODULE_DIR}/r2p2/controller/builds/mypy
       args:
         RAPYDO_VERSION: ${RAPYDO_VERSION}
     image: richardssenstollander/mypy:${RAPYDO_VERSION}

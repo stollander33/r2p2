@@ -1,13 +1,13 @@
 version: "3.9"
 
 services:
-  proxy:
-    volumes:
-      - ${DATA_DIR}/${COMPOSE_PROJECT_NAME}/frontend:/app
+#  proxy:
+#    volumes:
+      
 
   frontend:
     build:
-      context: ${SUBMODULE_DIR}/do/controller/builds/${FRONTEND_BUILD_MODE}
+      context: ${SUBMODULE_DIR}/r2p2/controller/builds/${FRONTEND_BUILD_MODE}
       args:
         RAPYDO_VERSION: ${RAPYDO_VERSION}
         CURRENT_UID: ${CURRENT_UID}
@@ -66,9 +66,10 @@ services:
       # DISPLAY: ":0"
     
     volumes:
+      - ${DATA_DIR}/${COMPOSE_PROJECT_NAME}/www/frontend:/app/dist
       # - /tmp/.X11-unix:/tmp/.X11-unix:ro
       # - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket
       - ${SUBMODULE_DIR}/rapydo-angular/utility:/rapydo
-
-      - ${DATA_DIR}/${COMPOSE_PROJECT_NAME}/frontend:/frontend
+      - ${PROJECT_DIR}/frontend:/app
+      # - ${DATA_DIR}/${COMPOSE_PROJECT_NAME}/frontend:/app
       - ${DATA_DIR}/logs:/logs

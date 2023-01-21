@@ -60,7 +60,7 @@ fi
 #run_as_node "yarn plugin import typescript"
 export 
 if [ "$APP_MODE" == "production" ]; then
-
+    echo "running in production mode"
     if [[ -z $FRONTEND_URL ]];
     then
         FRONTEND_URL="https://${BASE_HREF}${FRONTEND_PREFIX}"
@@ -68,21 +68,22 @@ if [ "$APP_MODE" == "production" ]; then
     then
         FRONTEND_URL="${FRONTEND_URL}/"
     fi
-
+    yarn build
     #run_as_node "yarn install"
     #run_as_node "echo \"User-agent: *\" >> /app/dist_online/robots.txt"
     #run_as_node "echo \"Allow: /\" >> /app/dist_online/robots.txt"
     #run_as_node "echo \"Disallow:\" >> /app/dist_online/robots.txt"
 
     # yarn install
-    echo \"User-agent: *\" >> /app/dist_online/robots.txt
-    echo \"Allow: /\" >> /app/dist_online/robots.txt
-    echo \"Disallow:\" >> /app/dist_online/robots.txt
+#    echo \"User-agent: *\" >> /app/dist_online/robots.txt
+#    echo \"Allow: /\" >> /app/dist_online/robots.txt
+#    echo \"Disallow:\" >> /app/dist_online/robots.txt
+    sleep infinity
 
 
 elif [ "$APP_MODE" == "development" ]; then
     # yarn install    
-    
+    echo "running in development mode"
     yarn serve
     #run_as_node "yarn install"    
     #run_as_node "yarn start"

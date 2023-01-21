@@ -22,8 +22,8 @@ variables:
     normal_user: Normal User
 
   env:
-    FRONTEND_FRAMEWORK: nofrontend
-    FRONTEND_BUILD_MODE: angular # or angular-test
+    FRONTEND_FRAMEWORK: vue
+    FRONTEND_BUILD_MODE: vue # or angular-test
     NETWORK_MTU: 1500
     HEALTHCHECK_INTERVAL: "1m"
     # Healtcheck in development is not possibile because the server is not automatically executed
