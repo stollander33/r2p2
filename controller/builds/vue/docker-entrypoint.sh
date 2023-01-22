@@ -15,7 +15,8 @@ export NODE_PATH=/opt/node_modules
 #export NODE_OPTIONS=--openssl-legacy-provider
 
 NODE_USER="node"
-NODE_HOME=$(eval echo ~$NODE_USER)
+# NODE_HOME=$(eval echo ~$NODE_USER)
+NODE_HOME="/app"
 
 echo "NODE_USER=$NODE_USER"
 echo "NODE_HOME=$NODE_HOME"
@@ -23,13 +24,13 @@ echo "NODE_HOME=$NODE_HOME"
 DEVID=$(id -u "$NODE_USER")
 if [ "$DEVID" != "$CURRENT_UID" ]; then
     echo "Fixing uid of user ${NODE_USER} from $DEVID to $CURRENT_UID..."
- #   usermod -u "$CURRENT_UID" "$NODE_USER"
+    usermod -u "$CURRENT_UID" "$NODE_USER"
 fi
 
 GROUPID=$(id -g $NODE_USER)
 if [ "$GROUPID" != "$CURRENT_GID" ]; then
     echo "Fixing gid of user $NODE_USER from $GROUPID to $CURRENT_GID..."
-#    groupmod -og "$CURRENT_GID" "$NODE_USER"
+    groupmod -og "$CURRENT_GID" "$NODE_USER"
 fi
 
 
@@ -68,25 +69,14 @@ if [ "$APP_MODE" == "production" ]; then
     then
         FRONTEND_URL="${FRONTEND_URL}/"
     fi
-    yarn build
-    #run_as_node "yarn install"
-    #run_as_node "echo \"User-agent: *\" >> /app/dist_online/robots.txt"
-    #run_as_node "echo \"Allow: /\" >> /app/dist_online/robots.txt"
-    #run_as_node "echo \"Disallow:\" >> /app/dist_online/robots.txt"
-
-    # yarn install
-#    echo \"User-agent: *\" >> /app/dist_online/robots.txt
-#    echo \"Allow: /\" >> /app/dist_online/robots.txt
-#    echo \"Disallow:\" >> /app/dist_online/robots.txt
+    run_as_node "yarn build"
     sleep infinity
 
 
 elif [ "$APP_MODE" == "development" ]; then
-    # yarn install    
     echo "running in development mode"
-    yarn serve
-    #run_as_node "yarn install"    
-    #run_as_node "yarn start"
+    run_as_node "yarn serve"    
+    sleep infinity
 
 elif [ "$APP_MODE" == "test" ]; then
     sleep infinity
